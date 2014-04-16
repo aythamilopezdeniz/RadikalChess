@@ -1,8 +1,10 @@
 package Model;
 
-public abstract class ChessPiece {
+public class ChessPiece {
+
     private final String name;
-    private final Position position;
+    private Position position;
+    private Image image;
 
     public ChessPiece(String name, Position position) {
         this.name = name;
@@ -16,6 +18,12 @@ public abstract class ChessPiece {
     public Position getPosition() {
         return position;
     }
-    
-    public abstract Image loadImage();
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
 }
