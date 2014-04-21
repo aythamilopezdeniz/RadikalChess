@@ -2,16 +2,22 @@ package UserInterface;
 
 import Model.ChessPiece;
 import java.awt.BorderLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class MainFrame extends JFrame {
-    private final ChessPiece[] whiteChessPieces;
-    private final ChessPiece[] blackChessPieces;
+    private final ArrayList<ChessPiece> whiteChessPieces;
+    private final ArrayList<ChessPiece> blackChessPieces;
+    private int row = 6;
+    private int column = 4;
 
-    public MainFrame(ChessPiece[] whiteChessPieces, ChessPiece[] blackChessPieces) {
+    public MainFrame(ArrayList<ChessPiece> whiteChessPieces, 
+            ArrayList<ChessPiece> blackChessPieces) {
         this.whiteChessPieces=whiteChessPieces;
         this.blackChessPieces=blackChessPieces;
         this.setTitle("RadikalChess");
@@ -45,9 +51,67 @@ public class MainFrame extends JFrame {
     }
 
     private JComboBox createBoardSize() {
-        JComboBox size=new JComboBox(new String[]{"Size=6x4", "Size=8x6", "Size=10x8", "Size=12x10"});
+        final JComboBox size=new JComboBox(new String[]{"Size=6x4", "Size=8x6", "Size=10x8", "Size=12x10"});
+        size.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                switch(size.getSelectedIndex()){
+                    case 0:
+                        setRow(6);
+                        setColumn(4);
+                        break;
+                    case 1:
+                        setRow(8);
+                        setColumn(6);
+                        break;
+                    case 2:
+                        setRow(10);
+                        setColumn(8);
+                        break;
+                    case 3:
+                        setRow(12);
+                        setColumn(10);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
         size.setSelectedIndex(0);
         return size;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
     }
 
     private JComboBox createAlgorithm() {

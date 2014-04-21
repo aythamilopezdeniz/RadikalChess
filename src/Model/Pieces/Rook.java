@@ -5,7 +5,7 @@ import Model.Position;
 
 public class Rook extends ChessPiece {
 
-    public Rook(String name, Position position) {
-        super(name, position);
+    public Rook(String name, Position position, String colour) {
+        super(name, position, colour);
     }
 }
