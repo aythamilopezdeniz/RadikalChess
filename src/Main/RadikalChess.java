@@ -6,7 +6,8 @@ import UserInterface.MainFrame;
 import java.util.ArrayList;
 
 public class RadikalChess {
-    public static final String filename="C:\\Users\\ENTRAR\\Desktop\\Fichas";
+    public static final String filename="F:\\Universidad\\Tercer Curso\\Segundo Cuatrimestre\\"
+            + "Fundamentos de los Sistemas Inteligentes\\Trabajo de Curso\\Piezas Ajedrez";
     private MainFrame frame;
 
     public static void main(String[] args) {
@@ -15,7 +16,6 @@ public class RadikalChess {
     }
 
     private void execute() {
-        
         ArrayList<ChessPiece> whiteChessPiece=new ChessPieceLoader(filename).load("White");
         ArrayList<ChessPiece> blackChessPiece=new ChessPieceLoader(filename).load("Black");
         frame=new MainFrame(whiteChessPiece, blackChessPiece);

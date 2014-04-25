@@ -1,6 +1,6 @@
 package Model;
 
-public class ChessPiece {
+public abstract class ChessPiece {
 
     private final String name;
     private Position position;
