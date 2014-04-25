@@ -21,6 +21,13 @@ public class ChessBoard implements Cloneable {
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        return null;
+        ChessBoard board=new ChessBoard(cell.length, cell[0].length);
+        for (int i=0;i<cell.length;i++) {
+            for (int j=0;j<cell[0].length;j++) {
+                if(cell[i][j].getChessPiece()!=null)
+                    board.cell[i][j].setChessPiece((ChessPiece) cell[i][j].getChessPiece().clone());
+            }
+        }
+        return  board;
     }
 }

@@ -32,4 +32,9 @@ public abstract class ChessPiece {
     public String getColour() {
         return colour;
     }
+
+    @Override
+    protected abstract Object clone() throws CloneNotSupportedException;
+    
+    public abstract int getValue();
 }
