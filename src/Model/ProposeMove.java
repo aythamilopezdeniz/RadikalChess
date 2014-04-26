@@ -13,84 +13,118 @@ public class ProposeMove {
     
     private boolean movePawn(ChessPiece chessPiece, Movement movement){
         if(!name.equals(chessPiece.getName()))return false;
-        if(chessPiece.getPosition().getColumn()-
-                movement.getDestination().getColumn()==0&&
-                chessPiece.getPosition().getRow()-
-                movement.getDestination().getRow()==1)return true;
-        if(chessPiece.getPosition().getColumn()-
-                movement.getDestination().getColumn()==0&&
-                chessPiece.getPosition().getRow()-
-                movement.getDestination().getRow()==-1)return true;
-        return false;
+        if(chessPiece.getPosition().getColumn()-movement.getDestination().getColumn()==0&&
+                chessPiece.getPosition().getRow()-movement.getDestination().getRow()==1)return true;
+        return chessPiece.getPosition().getColumn()-movement.getDestination().getColumn()==0&&
+                chessPiece.getPosition().getRow()-movement.getDestination().getRow()==-1;
     }
 
     private boolean moveRook(ChessPiece chessPiece, Movement movement, ChessBoard chessBoard){
         if(!name.equals(chessPiece.getName()))return false;
-        if(moveRookHorizontal(chessPiece, movement, chessBoard))return true;
-        if(moveRookVertical(chessPiece, movement, chessBoard))return true;
-        return false;
-    }
-
-    private boolean moveRookHorizontal(ChessPiece chessPiece, Movement movement, ChessBoard chessBoard) {
-        if(chessPiece.getPosition().getColumn()-movement.getDestination().getColumn()>0&&
-                chessPiece.getPosition().getRow()-movement.getDestination().getRow()==0){
-            for (int i=chessPiece.getPosition().getColumn();i<movement.getDestination().getColumn();i++) {
-                if(chessBoard.getCell()[chessPiece.getPosition().getRow()][i].getChessPiece()!=null)return false;
-            }
-            return true;
-        }
-        if(chessPiece.getPosition().getColumn()-movement.getDestination().getColumn()<0&&
-                chessPiece.getPosition().getRow()-movement.getDestination().getRow()==0){
-            for (int i=chessPiece.getPosition().getColumn();i<movement.getDestination().getColumn();i++) {
-                if(chessBoard.getCell()[chessPiece.getPosition().getRow()][i].getChessPiece()!=null)return false;
-            }
-            return true;
-        }
-        return false;
-    }
-
-    private boolean moveRookVertical(ChessPiece chessPiece, Movement movement, ChessBoard chessBoard) {
-        if(chessPiece.getPosition().getRow()-movement.getDestination().getRow()>0&&
-                chessPiece.getPosition().getColumn()-movement.getDestination().getColumn()==0){
-            for (int i=chessPiece.getPosition().getRow();i<movement.getDestination().getRow();i++) {
-                if(chessBoard.getCell()[chessPiece.getPosition().getColumn()][i].getChessPiece()
-                        !=null)return false;
-            }
-            return true;
-        }
-        if(chessPiece.getPosition().getRow()-movement.getDestination().getRow()<0&&
-                chessPiece.getPosition().getColumn()-movement.getDestination().getColumn()==0){
-            for (int i=0;i<movement.getDestination().getRow();i++) {
-                if(chessBoard.getCell()[chessPiece.getPosition().getColumn()][i].getChessPiece()
-                        !=null)return false;
-            }
-            return true;
-        }
-        return false;
+        return (moveHorizontal(movement, chessBoard)||moveVertical(movement, chessBoard));
     }
 
     private boolean moveBishop(ChessPiece chessPiece, Movement movement, ChessBoard chessBoard){
         if(!name.equals(chessPiece.getName()))return false;
-        if(moveBishopDiagonalDown(chessPiece, movement, chessBoard))return true;
-        if(moveBishopDiagonalUp(chessPiece, movement, chessBoard))return true;
-        return false;
+        return (moveDiagonalDown(movement, chessBoard)||moveDiagonalUp(movement, chessBoard));
     }
 
-    private boolean moveBishopDiagonalDown(ChessPiece chessPiece, Movement movement, ChessBoard chessBoard) {
-        return false;
+    private boolean moveQueen(ChessPiece chessPiece, Movement movement, ChessBoard chessBoard){
+        if(!name.equals(chessPiece.getName()))return false;
+        return(moveHorizontal(movement, chessBoard)||moveVertical(movement, chessBoard)
+                ||moveDiagonalDown(movement, chessBoard)||moveDiagonalUp(movement, chessBoard));
     }
 
-    private boolean moveBishopDiagonalUp(ChessPiece chessPiece, Movement movement, ChessBoard chessBoard) {
-        return false;
-    }
-
-    private boolean moveQueen(ChessPiece chessPiece, Movement movement){
+    private boolean moveKing(ChessPiece chessPiece, Movement movement, ChessBoard chessBoard){
         if(!name.equals(chessPiece.getName()))return false;
         return false;
     }
 
-    private boolean moveKing(ChessPiece chessPiece, Movement movement){
-        if(!name.equals(chessPiece.getName()))return false;
+    private boolean moveHorizontal(Movement movement, ChessBoard chessBoard) {
+        if(movement.getOrigin().getColumn()-movement.getDestination().getColumn()>0&&
+                movement.getOrigin().getRow()-movement.getDestination().getRow()==0){
+            for (int i=movement.getOrigin().getColumn();i<movement.getDestination().getColumn();i++) {
+                if(chessBoard.getCell()[movement.getDestination().getRow()]
+                        [i].getChessPiece()!=null)return false;
+            }
+            return true;
+        }
+        if(movement.getOrigin().getColumn()-movement.getDestination().getColumn()<0&&
+                movement.getOrigin().getRow()-movement.getDestination().getRow()==0){
+            for (int i=movement.getOrigin().getColumn();i<movement.getDestination().getColumn();i++) {
+                if(chessBoard.getCell()[movement.getDestination().getRow()]
+                        [i].getChessPiece()!=null)return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private boolean moveVertical(Movement movement, ChessBoard chessBoard) {
+        if(movement.getOrigin().getRow()-movement.getDestination().getRow()>0&&
+                movement.getOrigin().getColumn()-movement.getDestination().getColumn()==0){
+            for (int i=movement.getOrigin().getRow();i<movement.getDestination().getRow();i++) {
+                if(chessBoard.getCell()[movement.getDestination().getColumn()]
+                        [i].getChessPiece()!=null)return false;
+            }
+            return true;
+        }
+        if(movement.getOrigin().getRow()-movement.getDestination().getRow()<0&&
+                movement.getOrigin().getColumn()-movement.getDestination().getColumn()==0){
+            for (int i=0;i<movement.getDestination().getRow();i++) {
+                if(chessBoard.getCell()[movement.getDestination().getColumn()]
+                        [i].getChessPiece()!=null)return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private boolean moveDiagonalDown(Movement movement, ChessBoard chessBoard) {
+        if(Math.abs(movement.getOrigin().getRow()-movement.getDestination().getRow())==
+                Math.abs(movement.getOrigin().getColumn()-movement.getDestination().getColumn())&&
+                movement.getOrigin().getRow()<movement.getDestination().getRow()&&
+                movement.getOrigin().getColumn()<movement.getDestination().getColumn()){
+            for (int i=1;i<movement.getDestination().getColumn()-movement.getOrigin().getColumn();i++) {
+                if(chessBoard.getCell()[movement.getOrigin().getRow()+i]
+                        [movement.getOrigin().getColumn()+i].getChessPiece()!=null)return false;
+            }
+            return true;
+        }
+        if(Math.abs(movement.getOrigin().getRow()-movement.getDestination().getRow())==
+                Math.abs(movement.getOrigin().getColumn()-movement.getDestination().getColumn())&&
+                movement.getOrigin().getRow()<movement.getDestination().getRow()&&
+                movement.getOrigin().getColumn()>movement.getDestination().getColumn()){
+            for (int i=1;i<movement.getOrigin().getColumn()-movement.getDestination().getColumn();i++) {
+                if(chessBoard.getCell()[movement.getOrigin().getRow()+i]
+                        [movement.getOrigin().getColumn()-i].getChessPiece()!=null)return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private boolean moveDiagonalUp(Movement movement, ChessBoard chessBoard) {
+        if(Math.abs(movement.getOrigin().getRow()-movement.getDestination().getRow())==
+                Math.abs(movement.getOrigin().getColumn()-movement.getDestination().getColumn())&&
+                movement.getOrigin().getRow()>movement.getDestination().getRow()&&
+                movement.getOrigin().getColumn()<movement.getDestination().getColumn()){
+            for (int i=1;i<movement.getDestination().getColumn()-movement.getOrigin().getColumn();i++) {
+                if(chessBoard.getCell()[movement.getOrigin().getRow()-i]
+                        [movement.getOrigin().getColumn()+i].getChessPiece()!=null)return false;
+            }
+            return true;
+        }
+        if(Math.abs(movement.getOrigin().getRow()-movement.getDestination().getRow())==
+                Math.abs(movement.getOrigin().getColumn()-movement.getDestination().getColumn())&&
+                movement.getOrigin().getRow()>movement.getDestination().getRow()&&
+                movement.getOrigin().getColumn()>movement.getDestination().getColumn()){
+            for (int i=1;i<movement.getOrigin().getColumn()-movement.getDestination().getColumn();i++) {
+                if(chessBoard.getCell()[movement.getOrigin().getRow()-i]
+                        [movement.getDestination().getColumn()-i].getChessPiece()!=null)return false;
+            }
+            return true;
+        }
         return false;
     }
 }
