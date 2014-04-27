@@ -37,6 +37,58 @@ public class ProposeMove {
 
     private boolean moveKing(ChessPiece chessPiece, Movement movement, ChessBoard chessBoard){
         if(!name.equals(chessPiece.getName()))return false;
+        if("White".equals(chessPiece.getColour())){
+            if(movement.getOrigin().getRow()-movement.getDestination().getRow()==-1&&
+                    movement.getOrigin().getColumn()-movement.getDestination().getColumn()==0)
+                return true;
+            if(movement.getDestination().getRow()-movement.getOrigin().getRow()==-1&&
+                    movement.getDestination().getColumn()-movement.getOrigin().getColumn()==1)
+                return true;
+            if(movement.getDestination().getRow()-movement.getOrigin().getRow()==0&&
+                    movement.getDestination().getColumn()-movement.getOrigin().getColumn()==1)
+                return true;
+            if(movement.getDestination().getRow()-movement.getOrigin().getRow()==1&&
+                    movement.getDestination().getColumn()-movement.getOrigin().getColumn()==1)
+                return true;
+            if(movement.getDestination().getRow()-movement.getOrigin().getRow()==1&&
+                    movement.getDestination().getColumn()-movement.getOrigin().getColumn()==0)
+                return true;
+            if(movement.getDestination().getRow()-movement.getOrigin().getRow()==1&&
+                    movement.getDestination().getColumn()-movement.getOrigin().getColumn()==-1)
+                return true;
+            if(movement.getDestination().getRow()-movement.getOrigin().getRow()==0&&
+                    movement.getDestination().getColumn()-movement.getOrigin().getColumn()==-1)
+                return true;
+            if(movement.getDestination().getRow()-movement.getOrigin().getRow()==-1&&
+                    movement.getDestination().getColumn()-movement.getOrigin().getColumn()==-1)
+                return true;
+        }
+        if("Black".equals(chessPiece.getColour())){
+            if(movement.getOrigin().getRow()-movement.getDestination().getRow()==0&&
+                    movement.getOrigin().getColumn()-movement.getDestination().getColumn()==1)
+                return true;
+            if(movement.getDestination().getRow()-movement.getOrigin().getRow()==1&&
+                    movement.getDestination().getColumn()-movement.getOrigin().getColumn()==1)
+                return true;
+            if(movement.getDestination().getRow()-movement.getOrigin().getRow()==1&&
+                    movement.getDestination().getColumn()-movement.getOrigin().getColumn()==0)
+                return true;
+            if(movement.getDestination().getRow()-movement.getOrigin().getRow()==1&&
+                    movement.getDestination().getColumn()-movement.getOrigin().getColumn()==-1)
+                return true;
+            if(movement.getDestination().getRow()-movement.getOrigin().getRow()==0&&
+                    movement.getDestination().getColumn()-movement.getOrigin().getColumn()==-1)
+                return true;
+            if(movement.getDestination().getRow()-movement.getOrigin().getRow()==1&&
+                    movement.getDestination().getColumn()-movement.getOrigin().getColumn()==-1)
+                return true;
+            if(movement.getDestination().getRow()-movement.getOrigin().getRow()==1&&
+                    movement.getDestination().getColumn()-movement.getOrigin().getColumn()==0)
+                return true;
+            if(movement.getDestination().getRow()-movement.getOrigin().getRow()==1&&
+                    movement.getDestination().getColumn()-movement.getOrigin().getColumn()==1)
+                return true;
+        }
         return false;
     }
 
