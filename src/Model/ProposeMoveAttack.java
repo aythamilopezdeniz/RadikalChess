@@ -13,7 +13,42 @@ public class ProposeMoveAttack {
     
     private boolean attackPawn(ChessPiece chessPiece, Movement movement, ChessBoard chessBoard){
         if(!name.equals(chessPiece.getName()))return false;
-        
+        if("White".equals(chessPiece.getColour())){
+            if(movement.getOrigin().getRow()-movement.getDestination().getRow()==-1&&
+                    movement.getOrigin().getColumn()-movement.getDestination().getColumn()==-1){
+                if(chessBoard.getCell()[movement.getDestination().getRow()]
+                        [movement.getDestination().getColumn()].getChessPiece()!=null&&
+                        "Black".equals(chessBoard.getCell()[movement.getDestination().getRow()]
+                        [movement.getDestination().getColumn()].getChessPiece().getColour()))
+                    return true;
+            }
+            if(movement.getOrigin().getRow()-movement.getDestination().getRow()==-1&&
+                    movement.getOrigin().getColumn()-movement.getDestination().getColumn()==1){
+                if(chessBoard.getCell()[movement.getDestination().getRow()]
+                        [movement.getDestination().getColumn()].getChessPiece()!=null&&
+                        "Black".equals(chessBoard.getCell()[movement.getDestination().getRow()]
+                        [movement.getDestination().getColumn()].getChessPiece().getColour()))
+                    return true;
+            }
+        }
+        if("Black".equals(chessPiece.getColour())){
+            if(movement.getOrigin().getRow()-movement.getDestination().getRow()==-1&&
+                    movement.getOrigin().getColumn()-movement.getDestination().getColumn()==1){
+                if(chessBoard.getCell()[movement.getDestination().getRow()]
+                        [movement.getDestination().getColumn()].getChessPiece()!=null&&
+                        "White".equals(chessBoard.getCell()[movement.getDestination().getRow()]
+                        [movement.getDestination().getColumn()].getChessPiece().getColour()))
+                    return true;
+            }
+            if(movement.getOrigin().getRow()-movement.getDestination().getRow()==-1&&
+                    movement.getOrigin().getColumn()-movement.getDestination().getColumn()==-1){
+                if(chessBoard.getCell()[movement.getDestination().getRow()]
+                        [movement.getDestination().getColumn()].getChessPiece()!=null&&
+                        "White".equals(chessBoard.getCell()[movement.getDestination().getRow()]
+                                [movement.getDestination().getColumn()].getChessPiece().getColour()))
+                    return true;
+            }
+        }
         return false;
     }
     
