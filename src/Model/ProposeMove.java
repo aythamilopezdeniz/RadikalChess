@@ -3,14 +3,13 @@ package Model;
 public class ProposeMove {
     private final Movement movement;
     private final String name;
-    private final ChessBoard chessBoard;
 
-    public ProposeMove(String name, Movement movement, ChessBoard chessBoard) {
+    public ProposeMove(String name, Movement movement) {
         this.name=name;
         this.movement=movement;
-        this.chessBoard=chessBoard;
     }
     
+    /*ARREGLAR OBSTACULOS PEON*/
     private boolean movePawn(ChessPiece chessPiece, Movement movement){
         if(!name.equals(chessPiece.getName()))return false;
         if(chessPiece.getPosition().getColumn()-movement.getDestination().getColumn()==0&&
@@ -95,7 +94,7 @@ public class ProposeMove {
     private boolean moveHorizontal(Movement movement, ChessBoard chessBoard) {
         if(movement.getOrigin().getColumn()-movement.getDestination().getColumn()>0&&
                 movement.getOrigin().getRow()-movement.getDestination().getRow()==0){
-            for (int i=movement.getOrigin().getColumn();i<movement.getDestination().getColumn();i++) {
+            for (int i=movement.getOrigin().getColumn();i>=movement.getDestination().getColumn();i--) {
                 if(chessBoard.getCell()[movement.getDestination().getRow()]
                         [i].getChessPiece()!=null)return false;
             }
@@ -103,7 +102,7 @@ public class ProposeMove {
         }
         if(movement.getOrigin().getColumn()-movement.getDestination().getColumn()<0&&
                 movement.getOrigin().getRow()-movement.getDestination().getRow()==0){
-            for (int i=movement.getOrigin().getColumn();i<movement.getDestination().getColumn();i++) {
+            for (int i=movement.getOrigin().getColumn();i<=movement.getDestination().getColumn();i++) {
                 if(chessBoard.getCell()[movement.getDestination().getRow()]
                         [i].getChessPiece()!=null)return false;
             }
@@ -115,16 +114,16 @@ public class ProposeMove {
     private boolean moveVertical(Movement movement, ChessBoard chessBoard) {
         if(movement.getOrigin().getRow()-movement.getDestination().getRow()>0&&
                 movement.getOrigin().getColumn()-movement.getDestination().getColumn()==0){
-            for (int i=movement.getOrigin().getRow();i<movement.getDestination().getRow();i++) {
-                if(chessBoard.getCell()[movement.getDestination().getColumn()]
+            for (int i=movement.getOrigin().getRow();i>=movement.getDestination().getRow();i--) {
+                if(chessBoard.getCell()[movement.getDestination().getRow()]
                         [i].getChessPiece()!=null)return false;
             }
             return true;
         }
         if(movement.getOrigin().getRow()-movement.getDestination().getRow()<0&&
                 movement.getOrigin().getColumn()-movement.getDestination().getColumn()==0){
-            for (int i=0;i<movement.getDestination().getRow();i++) {
-                if(chessBoard.getCell()[movement.getDestination().getColumn()]
+            for (int i=movement.getOrigin().getRow();i<=movement.getDestination().getRow();i++) {
+                if(chessBoard.getCell()[movement.getDestination().getRow()]
                         [i].getChessPiece()!=null)return false;
             }
             return true;
