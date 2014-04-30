@@ -2,7 +2,7 @@ package Aima;
 
 import java.util.List;
 
-public class RadikalChessGame implements Game{
+public class RadikalChessGame implements Game {
 
     @Override
     public Object getInitialState() {
