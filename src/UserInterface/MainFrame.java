@@ -2,8 +2,8 @@ package UserInterface;
 
 import Model.ChessPiece;
 import java.awt.BorderLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -45,56 +45,47 @@ public class MainFrame extends JFrame {
     }
 
     private JComboBox createDifficulty() {
-        JComboBox difficulty=new JComboBox(new String[]{"Easy", "Medium", "Hard"});
-        difficulty.setSelectedIndex(0);
+        final JComboBox difficulty=new JComboBox(new String[]{"Easy", "Medium", "Hard"});
+        difficulty.addItemListener(new ItemListener() {
+
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange()!=ItemEvent.SELECTED)return;
+                if(difficulty.getSelectedItem().equals("Easy"))
+                if(difficulty.getSelectedItem().equals("Medium"))
+                if(difficulty.getSelectedItem().equals("Hard"))return;
+            }
+        });
         return difficulty;
     }
 
     private JComboBox createBoardSize() {
         final JComboBox size=new JComboBox(new String[]{"Size=6x4", "Size=8x6", "Size=10x8", "Size=12x10"});
-        size.addMouseListener(new MouseListener() {
+        size.addItemListener(new ItemListener() {
 
             @Override
-            public void mouseClicked(MouseEvent e) {
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                switch(size.getSelectedIndex()){
-                    case 0:
-                        setRow(6);
-                        setColumn(4);
-                        break;
-                    case 1:
-                        setRow(8);
-                        setColumn(6);
-                        break;
-                    case 2:
-                        setRow(10);
-                        setColumn(8);
-                        break;
-                    case 3:
-                        setRow(12);
-                        setColumn(10);
-                        break;
-                    default:
-                        break;
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange()!=ItemEvent.SELECTED){
+                    return;
+                }
+                if(size.getSelectedItem().equals("Size=6x4")){
+                    setRow(6);
+                    setColumn(4);
+                }
+                if(size.getSelectedItem().equals("Size=8x6")){
+                    setRow(8);
+                    setColumn(6);
+                }
+                if(size.getSelectedItem().equals("Size=10x8")){
+                    setRow(10);
+                    setColumn(8);
+                }
+                if(size.getSelectedItem().equals("Size=12x10")){
+                    setRow(12);
+                    setColumn(10);
                 }
             }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
         });
-        size.setSelectedIndex(0);
         return size;
     }
 
@@ -115,8 +106,16 @@ public class MainFrame extends JFrame {
     }
 
     private JComboBox createAlgorithm() {
-        JComboBox algorithm=new JComboBox(new String[]{"Minimax", "AlphaBeta"});
-        algorithm.setSelectedIndex(0);
+        final JComboBox algorithm=new JComboBox(new String[]{"MinimaxSearch", "AlphaBetaSearch"});
+        algorithm.addItemListener(new ItemListener() {
+
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange()!=ItemEvent.SELECTED)return;
+                if(algorithm.getSelectedItem().equals("MinimaxSearch"))
+                if(algorithm.getSelectedItem().equals("AlphaBetaSearch"))return;
+            }
+        });
         return algorithm;
     }
 
