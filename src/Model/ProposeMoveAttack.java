@@ -94,7 +94,6 @@ public class ProposeMoveAttack {
                         chessBoard.getCell()[movement.getDestination().getRow()]
                         [i].getChessPiece().getColour()!=chessPiece.getColour())return true;
             }
-            return false;
         }
         return false;
     }
@@ -123,7 +122,6 @@ public class ProposeMoveAttack {
                         [movement.getDestination().getColumn()].getChessPiece().getColour()!=
                         chessPiece.getColour())return true;
             }
-            return false;
         }
         return false;
     }
@@ -134,20 +132,33 @@ public class ProposeMoveAttack {
                 movement.getOrigin().getRow()<movement.getDestination().getRow()&&
                 movement.getOrigin().getColumn()<movement.getDestination().getColumn()){
             for (int i=1;i<movement.getDestination().getColumn()-movement.getOrigin().getColumn();i++) {
-                if(chessBoard.getCell()[movement.getOrigin().getRow()+i]
+                if(i<movement.getDestination().getColumn()-movement.getOrigin().getColumn()&&
+                        chessBoard.getCell()[movement.getOrigin().getRow()+i]
                         [movement.getOrigin().getColumn()+i].getChessPiece()!=null)return false;
+                else if(i==movement.getDestination().getColumn()-movement.getOrigin().getColumn()&&
+                        chessBoard.getCell()[movement.getOrigin().getRow()+i]
+                        [movement.getOrigin().getColumn()+i].getChessPiece()!=null&&
+                        chessBoard.getCell()[movement.getDestination().getRow()]
+                        [movement.getDestination().getColumn()].getChessPiece().getColour()!=
+                        chessPiece.getColour())return true;
             }
-            return true;
+            return false;
         }
         if(Math.abs(movement.getOrigin().getRow()-movement.getDestination().getRow())==
                 Math.abs(movement.getOrigin().getColumn()-movement.getDestination().getColumn())&&
                 movement.getOrigin().getRow()<movement.getDestination().getRow()&&
                 movement.getOrigin().getColumn()>movement.getDestination().getColumn()){
             for (int i=1;i<movement.getOrigin().getColumn()-movement.getDestination().getColumn();i++) {
-                if(chessBoard.getCell()[movement.getOrigin().getRow()+i]
+                if(i<movement.getOrigin().getColumn()-movement.getDestination().getColumn()&&
+                        chessBoard.getCell()[movement.getOrigin().getRow()+i]
                         [movement.getOrigin().getColumn()-i].getChessPiece()!=null)return false;
+                else if(i==movement.getOrigin().getColumn()-movement.getDestination().getColumn()&&
+                        chessBoard.getCell()[movement.getOrigin().getRow()+i]
+                        [movement.getOrigin().getColumn()-i].getChessPiece()!=null&&
+                        chessBoard.getCell()[movement.getDestination().getRow()]
+                        [movement.getDestination().getColumn()].getChessPiece().getColour()!=
+                        chessPiece.getColour())return true;
             }
-            return true;
         }
         return false;
     }
@@ -158,10 +169,17 @@ public class ProposeMoveAttack {
                 movement.getOrigin().getRow()>movement.getDestination().getRow()&&
                 movement.getOrigin().getColumn()<movement.getDestination().getColumn()){
             for (int i=1;i<movement.getDestination().getColumn()-movement.getOrigin().getColumn();i++) {
-                if(chessBoard.getCell()[movement.getOrigin().getRow()-i]
+                if(i<movement.getDestination().getColumn()-movement.getOrigin().getColumn()&&
+                        chessBoard.getCell()[movement.getOrigin().getRow()-i]
                         [movement.getOrigin().getColumn()+i].getChessPiece()!=null)return false;
+                else if(i==movement.getDestination().getColumn()-movement.getOrigin().getColumn()&&
+                        chessBoard.getCell()[movement.getOrigin().getRow()-i]
+                        [movement.getOrigin().getColumn()+i].getChessPiece()!=null&&
+                        chessBoard.getCell()[movement.getDestination().getRow()]
+                        [movement.getDestination().getColumn()].getChessPiece().getColour()!=
+                        chessPiece.getColour())return true;
             }
-            return true;
+            return false;
         }
         if(Math.abs(movement.getOrigin().getRow()-movement.getDestination().getRow())==
                 Math.abs(movement.getOrigin().getColumn()-movement.getDestination().getColumn())&&
@@ -170,8 +188,13 @@ public class ProposeMoveAttack {
             for (int i=1;i<movement.getOrigin().getColumn()-movement.getDestination().getColumn();i++) {
                 if(chessBoard.getCell()[movement.getOrigin().getRow()-i]
                         [movement.getDestination().getColumn()-i].getChessPiece()!=null)return false;
+                else if(i==movement.getOrigin().getColumn()-movement.getDestination().getColumn()&&
+                        chessBoard.getCell()[movement.getOrigin().getRow()-i]
+                        [movement.getOrigin().getColumn()+i].getChessPiece()!=null&&
+                        chessBoard.getCell()[movement.getDestination().getRow()]
+                        [movement.getDestination().getColumn()].getChessPiece().getColour()!=
+                        chessPiece.getColour())return true;
             }
-            return true;
         }
         return false;
     }

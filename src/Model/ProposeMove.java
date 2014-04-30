@@ -9,13 +9,16 @@ public class ProposeMove {
         this.movement=movement;
     }
     
-    /*ARREGLAR OBSTACULOS PEON*/
-    private boolean movePawn(ChessPiece chessPiece, Movement movement){
+    private boolean movePawn(ChessPiece chessPiece, Movement movement, ChessBoard chessBoard){
         if(!name.equals(chessPiece.getName()))return false;
         if(chessPiece.getPosition().getColumn()-movement.getDestination().getColumn()==0&&
-                chessPiece.getPosition().getRow()-movement.getDestination().getRow()==1)return true;
-        return chessPiece.getPosition().getColumn()-movement.getDestination().getColumn()==0&&
-                chessPiece.getPosition().getRow()-movement.getDestination().getRow()==-1;
+                chessPiece.getPosition().getRow()-movement.getDestination().getRow()==1&&
+                chessBoard.getCell()[movement.getDestination().getRow()]
+                [movement.getDestination().getColumn()].getChessPiece()!=null)return true;
+        return (chessPiece.getPosition().getColumn()-movement.getDestination().getColumn()==0&&
+                chessPiece.getPosition().getRow()-movement.getDestination().getRow()==-1&&
+                chessBoard.getCell()[movement.getDestination().getRow()]
+                        [movement.getDestination().getColumn()].getChessPiece()!=null);
     }
 
     private boolean moveRook(ChessPiece chessPiece, Movement movement, ChessBoard chessBoard){
