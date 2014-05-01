@@ -4,7 +4,7 @@ public class RadikalChessState {
 
     @Override
     public String toString() {
-        return "RadikalChessState{" + '}';
+        return "";
     }
 
     @Override
