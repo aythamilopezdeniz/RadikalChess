@@ -134,8 +134,8 @@ public class MainFrame extends JFrame {
         return proposeMove;
     }
 
-    private JPanel createBoardPanel() {
-        JPanel boardPanel=new JPanel();
+    private ChessBoardPanel createBoardPanel() {
+        ChessBoardPanel boardPanel=new ChessBoardPanel(row, column);
         return boardPanel;
     }
 }

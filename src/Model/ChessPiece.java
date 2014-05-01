@@ -25,6 +25,10 @@ public abstract class ChessPiece {
         this.position = position;
     }
 
+    public Image getImage() {
+        return image;
+    }
+
     public void setImage(Image image) {
         this.image = image;
     }

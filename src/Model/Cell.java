@@ -20,8 +20,4 @@ public class Cell {
     public Position getPosition() {
         return position;
     }
-    
-    private ChessPiece getDistanceAtPiece(Position position){
-        return null;
-    }
 }
