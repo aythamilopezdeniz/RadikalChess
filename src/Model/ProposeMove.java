@@ -99,7 +99,7 @@ public class ProposeMove {
     private boolean moveHorizontal(Movement movement, ChessBoard chessBoard) {
         if(movement.getOrigin().getColumn()-movement.getDestination().getColumn()>0&&
                 movement.getOrigin().getRow()-movement.getDestination().getRow()==0){
-            for (int i=movement.getOrigin().getColumn();i>=movement.getDestination().getColumn();i--) {
+            for (int i=movement.getOrigin().getColumn()+1;i>=movement.getDestination().getColumn();i--) {
                 if(chessBoard.getCell()[movement.getDestination().getRow()]
                         [i].getChessPiece()!=null)return false;
             }
@@ -107,7 +107,7 @@ public class ProposeMove {
         }
         if(movement.getOrigin().getColumn()-movement.getDestination().getColumn()<0&&
                 movement.getOrigin().getRow()-movement.getDestination().getRow()==0){
-            for (int i=movement.getOrigin().getColumn();i<=movement.getDestination().getColumn();i++) {
+            for (int i=movement.getOrigin().getColumn()-1;i<=movement.getDestination().getColumn();i++) {
                 if(chessBoard.getCell()[movement.getDestination().getRow()]
                         [i].getChessPiece()!=null)return false;
             }
@@ -119,7 +119,7 @@ public class ProposeMove {
     private boolean moveVertical(Movement movement, ChessBoard chessBoard) {
         if(movement.getOrigin().getRow()-movement.getDestination().getRow()>0&&
                 movement.getOrigin().getColumn()-movement.getDestination().getColumn()==0){
-            for (int i=movement.getOrigin().getRow();i>=movement.getDestination().getRow();i--) {
+            for (int i=movement.getOrigin().getRow()-1;i>=movement.getDestination().getRow();i--) {
                 if(chessBoard.getCell()[i]
                         [movement.getDestination().getColumn()].getChessPiece()!=null)return false;
             }
@@ -127,7 +127,7 @@ public class ProposeMove {
         }
         if(movement.getOrigin().getRow()-movement.getDestination().getRow()<0&&
                 movement.getOrigin().getColumn()-movement.getDestination().getColumn()==0){
-            for (int i=movement.getOrigin().getRow();i<=movement.getDestination().getRow();i++) {
+            for (int i=movement.getOrigin().getRow()+1;i<=movement.getDestination().getRow();i++) {
                 if(chessBoard.getCell()[i]
                         [movement.getDestination().getColumn()].getChessPiece()!=null)return false;
             }

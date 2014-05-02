@@ -155,7 +155,7 @@ public class ProposeMoveAttack {
     private boolean moveHorizontalAttack(ChessPiece chessPiece, Movement movement, ChessBoard chessBoard) {
         if(movement.getOrigin().getColumn()-movement.getDestination().getColumn()>0&&
                 movement.getOrigin().getRow()-movement.getDestination().getRow()==0){
-            for (int i=movement.getOrigin().getColumn();i>=movement.getDestination().getColumn();i--) {
+            for (int i=movement.getOrigin().getColumn()+1;i>=movement.getDestination().getColumn();i--) {
                 if(i>movement.getDestination().getColumn()&&
                         chessBoard.getCell()[movement.getDestination().getRow()]
                         [i].getChessPiece()!=null)return false;
@@ -169,7 +169,7 @@ public class ProposeMoveAttack {
         }
         if(movement.getOrigin().getColumn()-movement.getDestination().getColumn()<0&&
                 movement.getOrigin().getRow()-movement.getDestination().getRow()==0){
-            for (int i=movement.getOrigin().getColumn();i<=movement.getDestination().getColumn();i++) {
+            for (int i=movement.getOrigin().getColumn()-1;i<=movement.getDestination().getColumn();i++) {
                 if(i<movement.getDestination().getColumn()&&
                         chessBoard.getCell()[movement.getDestination().getRow()]
                         [i].getChessPiece()!=null)return false;
@@ -186,7 +186,7 @@ public class ProposeMoveAttack {
     private boolean moveVerticalAttack(ChessPiece chessPiece, Movement movement, ChessBoard chessBoard) {
         if(movement.getOrigin().getRow()-movement.getDestination().getRow()>0&&
                 movement.getOrigin().getColumn()-movement.getDestination().getColumn()==0){
-            for (int i=movement.getOrigin().getRow();i>=movement.getDestination().getRow();i--) {
+            for (int i=movement.getOrigin().getRow()-1;i>=movement.getDestination().getRow();i--) {
                 if(i>movement.getDestination().getRow()&&chessBoard.getCell()[i]
                         [movement.getDestination().getColumn()].getChessPiece()!=null)return false;
                 else if(i==movement.getDestination().getRow()&&chessBoard.getCell()[i]
@@ -198,7 +198,7 @@ public class ProposeMoveAttack {
         }
         if(movement.getOrigin().getRow()-movement.getDestination().getRow()<0&&
                 movement.getOrigin().getColumn()-movement.getDestination().getColumn()==0){
-            for (int i=movement.getOrigin().getRow();i<=movement.getDestination().getRow();i++) {
+            for (int i=movement.getOrigin().getRow()+1;i<=movement.getDestination().getRow();i++) {
                 if(i<movement.getDestination().getRow()&&chessBoard.getCell()[i]
                         [movement.getDestination().getColumn()].getChessPiece()!=null)return false;
                 else if(i==movement.getDestination().getRow()&&chessBoard.getCell()[i]
