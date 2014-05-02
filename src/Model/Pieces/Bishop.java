@@ -12,7 +12,8 @@ public class Bishop extends ChessPiece {
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        return null;
+        ChessPiece chessPiece=new Bishop(getName(), getPosition(), getColour());
+        return chessPiece;
     }
 
     @Override

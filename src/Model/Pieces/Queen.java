@@ -12,7 +12,8 @@ public class Queen extends ChessPiece {
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        return null;
+        ChessPiece chessPiece=new Queen(getName(), getPosition(), getColour());
+        return chessPiece;
     }
 
     @Override
