@@ -120,16 +120,16 @@ public class ProposeMove {
         if(movement.getOrigin().getRow()-movement.getDestination().getRow()>0&&
                 movement.getOrigin().getColumn()-movement.getDestination().getColumn()==0){
             for (int i=movement.getOrigin().getRow();i>=movement.getDestination().getRow();i--) {
-                if(chessBoard.getCell()[movement.getDestination().getRow()]
-                        [i].getChessPiece()!=null)return false;
+                if(chessBoard.getCell()[i]
+                        [movement.getDestination().getColumn()].getChessPiece()!=null)return false;
             }
             return true;
         }
         if(movement.getOrigin().getRow()-movement.getDestination().getRow()<0&&
                 movement.getOrigin().getColumn()-movement.getDestination().getColumn()==0){
             for (int i=movement.getOrigin().getRow();i<=movement.getDestination().getRow();i++) {
-                if(chessBoard.getCell()[movement.getDestination().getRow()]
-                        [i].getChessPiece()!=null)return false;
+                if(chessBoard.getCell()[i]
+                        [movement.getDestination().getColumn()].getChessPiece()!=null)return false;
             }
             return true;
         }
@@ -167,7 +167,7 @@ public class ProposeMove {
                 movement.getOrigin().getColumn()<movement.getDestination().getColumn()){
             for (int i=1;i<movement.getDestination().getColumn()-movement.getOrigin().getColumn();i++) {
                 if(chessBoard.getCell()[movement.getOrigin().getRow()-i]
-                        [movement.getOrigin().getColumn()+i].getChessPiece()!=null)return false;
+                        [movement.getOrigin().getColumn()-i].getChessPiece()!=null)return false;
             }
             return true;
         }

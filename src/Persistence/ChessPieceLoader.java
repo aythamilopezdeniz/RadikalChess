@@ -2,8 +2,11 @@ package Persistence;
 
 import Model.ChessPiece;
 import Model.Image;
+import Model.Pieces.Bishop;
 import Model.Pieces.King;
 import Model.Pieces.Pawn;
+import Model.Pieces.Queen;
+import Model.Pieces.Rook;
 import Model.Position;
 import UserInterface.SwingBitmap;
 import java.awt.image.BufferedImage;
@@ -60,30 +63,30 @@ public class ChessPieceLoader {
 
     private void createQueen(String colour) {
         if ("white".equals(colour.toLowerCase())) {
-            chessPieceSet.add(new King("Queen", new Position(5, 2), colour));
+            chessPieceSet.add(new Queen("Queen", new Position(5, 2), colour));
             chessPieceSet.toArray(new ChessPiece[8])[5].setImage(loadImage(colour+"Queen"));
         } else if ("black".equals(colour.toLowerCase())) {
-            chessPieceSet.add(new King("Queen", new Position(0, 1), colour));
+            chessPieceSet.add(new Queen("Queen", new Position(0, 1), colour));
             chessPieceSet.toArray(new ChessPiece[8])[5].setImage(loadImage(colour+"Queen"));
         }
     }
 
     private void createBishop(String colour) {
         if ("white".equals(colour.toLowerCase())) {
-            chessPieceSet.add(new King("Bishop", new Position(5, 1), colour));
+            chessPieceSet.add(new Bishop("Bishop", new Position(5, 1), colour));
             chessPieceSet.toArray(new ChessPiece[8])[6].setImage(loadImage(colour+"Bishop"));
         } else if ("black".equals(colour.toLowerCase())) {
-            chessPieceSet.add(new King("Bishop", new Position(0, 2), colour));
+            chessPieceSet.add(new Bishop("Bishop", new Position(0, 2), colour));
             chessPieceSet.toArray(new ChessPiece[8])[6].setImage(loadImage(colour+"Bishop"));
         }
     }
 
     private void createRook(String colour) {
         if ("white".equals(colour.toLowerCase())) {
-            chessPieceSet.add(new King("Rook", new Position(5, 0), colour));
+            chessPieceSet.add(new Rook("Rook", new Position(5, 0), colour));
             chessPieceSet.toArray(new ChessPiece[8])[7].setImage(loadImage(colour+"Rook"));
         } else if ("black".equals(colour.toLowerCase())) {
-            chessPieceSet.add(new King("Rook", new Position(0, 3), colour));
+            chessPieceSet.add(new Rook("Rook", new Position(0, 3), colour));
             chessPieceSet.toArray(new ChessPiece[8])[7].setImage(loadImage(colour+"Rook"));
         }
     }

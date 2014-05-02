@@ -187,10 +187,9 @@ public class ProposeMoveAttack {
         if(movement.getOrigin().getRow()-movement.getDestination().getRow()>0&&
                 movement.getOrigin().getColumn()-movement.getDestination().getColumn()==0){
             for (int i=movement.getOrigin().getRow();i>=movement.getDestination().getRow();i--) {
-                if(i>movement.getDestination().getRow()&&
-                        chessBoard.getCell()[movement.getDestination().getColumn()]
-                        [i].getChessPiece()!=null)return false;
-                else if(i==movement.getDestination().getColumn()&&chessBoard.getCell()[i]
+                if(i>movement.getDestination().getRow()&&chessBoard.getCell()[i]
+                        [movement.getDestination().getColumn()].getChessPiece()!=null)return false;
+                else if(i==movement.getDestination().getRow()&&chessBoard.getCell()[i]
                         [movement.getDestination().getColumn()].getChessPiece()!=null&&chessBoard.getCell()[i]
                                 [movement.getDestination().getColumn()].getChessPiece().getColour()!=
                         chessPiece.getColour())return true;
@@ -275,7 +274,7 @@ public class ProposeMoveAttack {
                         [movement.getDestination().getColumn()-i].getChessPiece()!=null)return false;
                 else if(i==movement.getOrigin().getColumn()-movement.getDestination().getColumn()&&
                         chessBoard.getCell()[movement.getOrigin().getRow()-i]
-                        [movement.getOrigin().getColumn()+i].getChessPiece()!=null&&
+                        [movement.getOrigin().getColumn()-i].getChessPiece()!=null&&
                         chessBoard.getCell()[movement.getDestination().getRow()]
                         [movement.getDestination().getColumn()].getChessPiece().getColour()!=
                         chessPiece.getColour())return true;
