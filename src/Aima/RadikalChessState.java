@@ -1,6 +1,17 @@
 package Aima;
 
+import Model.ChessBoard;
+
 public class RadikalChessState {
+    private final ChessBoard chessBoard;
+
+    public RadikalChessState(ChessBoard chessBoard) {
+        this.chessBoard=chessBoard;
+    }
+
+    public ChessBoard getChessBoard() {
+        return chessBoard;
+    }
 
     @Override
     public String toString() {
