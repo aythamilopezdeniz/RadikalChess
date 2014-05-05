@@ -3,6 +3,7 @@ package UserInterface;
 import Model.Cell;
 import Model.ChessPiece;
 import Model.Image;
+import Model.Position;
 import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -10,16 +11,27 @@ import javax.swing.JButton;
 
 public class CellPanel extends JButton {
     private Cell cell;
-    private final ArrayList<ChessPiece> whiteChessPiece;
-    private final ArrayList<ChessPiece> blackChessPiece;
 
-    public CellPanel(Cell cell, ArrayList<ChessPiece> whiteChessPiece,
-            ArrayList<ChessPiece> blackChessPiece) {
-        this.cell=cell;
-        this.whiteChessPiece=whiteChessPiece;
-        this.blackChessPiece=whiteChessPiece;
+    public CellPanel(ChessPiece chessPiece, Position position) {
+        this.cell=new Cell(chessPiece, position);
     }
-    private void loadImages(ChessBoardPanel boardPanel) {
+
+    public Cell getCell() {
+        return cell;
+    }
+
+    public void setCell(Cell cell) {
+        this.cell = cell;
+    }
+
+    void removePiece(){
+        this.cell.setChessPiece(null);
+        this.setIcon(null);
+    }
+    
+    private void loadImages(ChessBoardPanel boardPanel, 
+            ArrayList<ChessPiece> whiteChessPiece,
+            ArrayList<ChessPiece> blackChessPiece) {
         for (ChessPiece chessPiece : whiteChessPiece) {
             boardPanel.getBoard()[chessPiece.getPosition().getRow()]
                                  [chessPiece.getPosition().getColumn()].setIcon(
@@ -34,5 +46,14 @@ public class CellPanel extends JButton {
     
     private Icon convertImageToImageIcon(Image image){
         return new ImageIcon(((SwingBitmap) image.getBitmap()).getBufferedImage());
+    }
+    
+    public void addPiece(CellPanel firstClicked) {
+        this.cell.setChessPiece(firstClicked.getCell().getChessPiece());
+        this.setIcon(convertImageToIcon(firstClicked.getCell().getChessPiece().getImage()));
+    }
+    
+    private Icon convertImageToIcon(Image image){
+        return new ImageIcon(((SwingBitmap)image.getBitmap()).getBufferedImage());    
     }
 }

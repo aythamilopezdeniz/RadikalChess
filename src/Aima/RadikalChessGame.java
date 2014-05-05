@@ -1,41 +1,56 @@
 package Aima;
 
+import Model.Movement;
 import java.util.List;
 
-public class RadikalChessGame implements Game {
+public class RadikalChessGame implements Game <RadikalChessState, Movement, String>{
+    private RadikalChessState initialState;
+    private RadikalChessState actualState;
+
+    public RadikalChessGame(RadikalChessState radikalChessState) {
+        try {
+            this.initialState=(RadikalChessState) radikalChessState.clone();
+            this.actualState=(RadikalChessState) radikalChessState.clone();
+        } catch (CloneNotSupportedException ex) {
+        }
+    }
+
+    public RadikalChessState getActualState() {
+        return actualState;
+    }
 
     @Override
-    public Object getInitialState() {
+    public RadikalChessState getInitialState() {
+        return initialState;
+    }
+
+    @Override
+    public String[] getPlayers() {
         return null;
     }
 
     @Override
-    public Object[] getPlayers() {
+    public String getPlayer(RadikalChessState state) {
         return null;
     }
 
     @Override
-    public Object getPlayer(Object state) {
+    public List<Movement> getActions(RadikalChessState state) {
         return null;
     }
 
     @Override
-    public List getActions(Object state) {
+    public RadikalChessState getResult(RadikalChessState state, Movement movement) {
         return null;
     }
 
     @Override
-    public Object getResult(Object state, Object action) {
-        return null;
+    public boolean isTerminal(RadikalChessState state) {
+        return state.isTerminal();
     }
 
     @Override
-    public boolean isTerminal(Object state) {
-        return false;
-    }
-
-    @Override
-    public double getUtility(Object state, Object player) {
+    public double getUtility(RadikalChessState state, String player) {
         return 0;
     }
 }

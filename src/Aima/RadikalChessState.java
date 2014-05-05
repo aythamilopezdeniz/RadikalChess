@@ -2,7 +2,7 @@ package Aima;
 
 import Model.ChessBoard;
 
-public class RadikalChessState {
+public class RadikalChessState implements Cloneable {
     private final ChessBoard chessBoard;
 
     public RadikalChessState(ChessBoard chessBoard) {
@@ -13,23 +13,13 @@ public class RadikalChessState {
         return chessBoard;
     }
 
-    @Override
-    public String toString() {
-        return "";
+    public boolean isTerminal() {
+        return false;
     }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode(); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        return super.clone(); //To change body of generated methods, choose Tools | Templates.
+        RadikalChessState radikalChessState=new RadikalChessState(chessBoard);
+        return radikalChessState;
     }
 }

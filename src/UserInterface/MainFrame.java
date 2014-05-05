@@ -136,6 +136,8 @@ public class MainFrame extends JFrame {
 
     private ChessBoardPanel createBoardPanel() {
         ChessBoardPanel boardPanel=new ChessBoardPanel(row, column);
+        boardPanel.createCells(whiteChessPieces, blackChessPieces);
+        boardPanel.loadImages();
         return boardPanel;
     }
 }

@@ -6,8 +6,9 @@ import UserInterface.MainFrame;
 import java.util.ArrayList;
 
 public class RadikalChess {
-    public static final String filename="F:\\Universidad\\Tercer Curso\\Segundo Cuatrimestre\\"
-            + "Fundamentos de los Sistemas Inteligentes\\Trabajo de Curso\\Piezas Ajedrez";
+    public static final String filename="H:\\Universidad\\Tercer Curso\\Segundo "
+            + "Cuatrimestre\\Fundamentos de los Sistemas Inteligentes\\Trabajo "
+            + "de Curso\\RadikalChess\\Piezas Ajedrez";
     private MainFrame frame;
 
     public static void main(String[] args) {
