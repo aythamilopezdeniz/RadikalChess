@@ -68,6 +68,7 @@ public class ChessBoardPanel extends JPanel {
                 paintCell(blackFirst, j, cell);
                 this.getBoard()[i][j] = cell;
                 this.getBoard()[i][j].addActionListener(new ActionListener() {
+
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         Object source = e.getSource();

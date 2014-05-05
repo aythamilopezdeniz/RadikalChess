@@ -24,7 +24,7 @@ public class CellPanel extends JButton {
         this.cell = cell;
     }
 
-    void removePiece(){
+    public void removePiece(){
         this.cell.setChessPiece(null);
         this.setIcon(null);
     }

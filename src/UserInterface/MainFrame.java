@@ -2,6 +2,7 @@ package UserInterface;
 
 import Model.ChessPiece;
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -136,8 +137,8 @@ public class MainFrame extends JFrame {
 
     private ChessBoardPanel createBoardPanel() {
         ChessBoardPanel boardPanel=new ChessBoardPanel(row, column);
+        boardPanel.setLayout(new GridLayout(row, column));
         boardPanel.createCells(whiteChessPieces, blackChessPieces);
-        boardPanel.loadImages();
         return boardPanel;
     }
 }
