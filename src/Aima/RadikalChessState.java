@@ -1,6 +1,7 @@
 package Aima;
 
 import Model.ChessBoard;
+import Model.Position;
 
 public class RadikalChessState implements Cloneable {
     private final ChessBoard chessBoard;
@@ -21,5 +22,9 @@ public class RadikalChessState implements Cloneable {
     protected Object clone() throws CloneNotSupportedException {
         RadikalChessState radikalChessState=new RadikalChessState(chessBoard);
         return radikalChessState;
+    }
+    
+    private boolean isEuclideanDistanceReduce(Position origin, Position destination){
+        return false;
     }
 }
