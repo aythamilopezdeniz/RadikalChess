@@ -30,4 +30,8 @@ public class ChessBoard implements Cloneable {
         }
         return  board;
     }
+    
+    public Position searchPositionKing(Player player){
+        return null;
+    }
 }

@@ -252,7 +252,7 @@ public class ProposeMoveAttack {
                 Math.abs(movement.getOrigin().getColumn()-movement.getDestination().getColumn())&&
                 movement.getOrigin().getRow()>movement.getDestination().getRow()&&
                 movement.getOrigin().getColumn()<movement.getDestination().getColumn()){
-            for (int i=1;i<movement.getDestination().getColumn()-movement.getOrigin().getColumn();i++) {
+            for (int i=1;i<movement.getDestination().getColumn()-movement.getOrigin().getColumn()+1;i++) {
                 if(i<movement.getDestination().getColumn()-movement.getOrigin().getColumn()&&
                         chessBoard.getCell()[movement.getOrigin().getRow()-i]
                         [movement.getOrigin().getColumn()+i].getChessPiece()!=null)return false;
@@ -269,8 +269,9 @@ public class ProposeMoveAttack {
                 Math.abs(movement.getOrigin().getColumn()-movement.getDestination().getColumn())&&
                 movement.getOrigin().getRow()>movement.getDestination().getRow()&&
                 movement.getOrigin().getColumn()>movement.getDestination().getColumn()){
-            for (int i=1;i<movement.getOrigin().getColumn()-movement.getDestination().getColumn();i++) {
-                if(chessBoard.getCell()[movement.getOrigin().getRow()-i]
+            for (int i=1;i<movement.getOrigin().getColumn()-movement.getDestination().getColumn()+1;i++) {
+                if(i<movement.getDestination().getColumn()-movement.getOrigin().getColumn()&&
+                        chessBoard.getCell()[movement.getOrigin().getRow()-i]
                         [movement.getDestination().getColumn()-i].getChessPiece()!=null)return false;
                 else if(i==movement.getOrigin().getColumn()-movement.getDestination().getColumn()&&
                         chessBoard.getCell()[movement.getOrigin().getRow()-i]

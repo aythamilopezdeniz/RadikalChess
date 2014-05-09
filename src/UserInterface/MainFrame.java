@@ -22,6 +22,7 @@ public class MainFrame extends JFrame {
 
     private final ArrayList<ChessPiece> whiteChessPieces;
     private final ArrayList<ChessPiece> blackChessPieces;
+    private final ArrayList<ChessPiece> allChessPieces;
     private int row = 6;
     private int column = 4;
     private boolean buttonPressed;
@@ -29,9 +30,11 @@ public class MainFrame extends JFrame {
     private CellPanel firstClicked;
 
     public MainFrame(ArrayList<ChessPiece> whiteChessPieces,
-            ArrayList<ChessPiece> blackChessPieces) {
+            ArrayList<ChessPiece> blackChessPieces,
+            ArrayList<ChessPiece> allChessPieces) {
         this.whiteChessPieces = whiteChessPieces;
         this.blackChessPieces = blackChessPieces;
+        this.allChessPieces = allChessPieces;
         this.setTitle("RadikalChess");
         this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -89,22 +92,22 @@ public class MainFrame extends JFrame {
                 if (size.getSelectedItem().equals("Size=6x4")) {
                     setRow(6);
                     setColumn(4);
-                    createCells();
+                    createBoardPanel();
                 }
                 if (size.getSelectedItem().equals("Size=8x6")) {
                     setRow(8);
                     setColumn(6);
-                    createCells();
+                    createBoardPanel();
                 }
                 if (size.getSelectedItem().equals("Size=10x8")) {
                     setRow(10);
                     setColumn(8);
-                    createCells();
+                    createBoardPanel();
                 }
                 if (size.getSelectedItem().equals("Size=12x10")) {
                     setRow(12);
                     setColumn(10);
-                    createCells();
+                    createBoardPanel();
                 }
             }
         });

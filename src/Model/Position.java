@@ -24,4 +24,9 @@ public class Position {
     public void setColumn(int column) {
         this.column = column;
     }
+    
+    public int euclideanDistance(Position position){
+        return (int) (Math.pow(position.row-this.row, 2)-
+                Math.pow(position.column-this.column, 2));
+    }
 }

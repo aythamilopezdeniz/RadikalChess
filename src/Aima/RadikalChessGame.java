@@ -1,9 +1,10 @@
 package Aima;
 
 import Model.Movement;
+import Model.Player;
 import java.util.List;
 
-public class RadikalChessGame implements Game <RadikalChessState, Movement, String>{
+public class RadikalChessGame implements Game <RadikalChessState, Movement, Player>{
     private RadikalChessState initialState;
     private RadikalChessState actualState;
 
@@ -24,14 +25,8 @@ public class RadikalChessGame implements Game <RadikalChessState, Movement, Stri
         return initialState;
     }
 
-    @Override
-    public String[] getPlayers() {
-        return null;
-    }
-
-    @Override
-    public String getPlayer(RadikalChessState state) {
-        return null;
+    public void setActualState(RadikalChessState actualState) {
+        this.actualState = actualState;
     }
 
     @Override
@@ -49,8 +44,18 @@ public class RadikalChessGame implements Game <RadikalChessState, Movement, Stri
         return state.isTerminal();
     }
 
+   @Override
+    public Player[] getPlayers() {
+        return null;
+    }
+
     @Override
-    public double getUtility(RadikalChessState state, String player) {
+    public Player getPlayer(RadikalChessState state) {
+        return null;
+    }
+
+    @Override
+    public double getUtility(RadikalChessState state, Player player) {
         return 0;
     }
 }

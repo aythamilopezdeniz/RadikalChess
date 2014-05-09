@@ -25,6 +25,7 @@ public class RadikalChessState implements Cloneable {
     }
     
     private boolean isEuclideanDistanceReduce(Position origin, Position destination){
-        return false;
+        return new Position(destination.getRow(), destination.getColumn()).euclideanDistance(origin)<
+                new Position(origin.getRow(), origin.getColumn()).euclideanDistance(destination);
     }
 }
