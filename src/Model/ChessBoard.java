@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Pieces.King;
+
 public class ChessBoard implements Cloneable {
     private final Cell[][] cell;
 
@@ -18,6 +20,19 @@ public class ChessBoard implements Cloneable {
     public Cell[][] getCell() {
         return cell;
     }
+    
+    public Position searchPositionKing(Player player){
+        for (int i=0;i<getRow();i++) {
+            for (int j=0;j<getColumn();j++) {
+                if(cell[i][j].getChessPiece()!=null){
+                    if(cell[i][j].getChessPiece() instanceof King&&
+                            cell[i][j].getChessPiece().getColour().equals(player.getPlayer()))
+                        return cell[i][j].getChessPiece().getPosition();
+                }
+            }
+        }
+        return null;
+    }
 
     @Override
     public Object clone() throws CloneNotSupportedException {
@@ -29,9 +44,5 @@ public class ChessBoard implements Cloneable {
             }
         }
         return  board;
-    }
-    
-    public Position searchPositionKing(Player player){
-        return null;
     }
 }

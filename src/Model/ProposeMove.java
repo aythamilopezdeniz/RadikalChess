@@ -5,6 +5,7 @@ import Model.Pieces.King;
 import Model.Pieces.Pawn;
 import Model.Pieces.Queen;
 import Model.Pieces.Rook;
+import java.util.ArrayList;
 
 public class ProposeMove {
     private static ProposeMove instance;
@@ -32,7 +33,7 @@ public class ProposeMove {
                 movement.getOrigin().getRow()-movement.getDestination().getRow()==1&&
                 chessBoard.getCell()[movement.getDestination().getRow()]
                 [movement.getDestination().getColumn()].getChessPiece()==null)return true;
-        return (movement.getOrigin().equals("Black")&&
+        return (chessPiece.getColour().equals("Black")&&
                 movement.getOrigin().getColumn()-movement.getDestination().getColumn()==0&&
                 movement.getOrigin().getRow()-movement.getDestination().getRow()==-1&&
                 chessBoard.getCell()[movement.getDestination().getRow()]
@@ -182,5 +183,44 @@ public class ProposeMove {
             return true;
         }
         return false;
+    }
+    
+    public boolean isEuclideanDistanceReduced(ArrayList<ChessPiece> allPieces, Movement movement,
+            ChessPiece chessPiece){
+        int d1, d2;
+        if (searchKingPosition(allPieces, chessPiece) != null){
+            d1 = calculateEuclideanDistance(calculateRowDistance(movement.getOrigin().getRow(),
+                    searchKingPosition(allPieces, chessPiece).getRow()),
+                    calculateColumnDistance(movement.getOrigin().getColumn(),
+                            searchKingPosition(allPieces, chessPiece).getColumn()));
+            d2 = calculateEuclideanDistance(calculateRowDistance(movement.getDestination().getRow(),
+                    searchKingPosition(allPieces, chessPiece).getRow()),
+                    calculateColumnDistance(movement.getDestination().
+                            getColumn(), searchKingPosition(allPieces, chessPiece)
+                                    .getColumn()));
+            if (d2 - d1 < 0)return true;
+        }
+        return false;
+    }
+    
+    private Position searchKingPosition(ArrayList<ChessPiece> allPieces, ChessPiece chessPiece){
+        for (ChessPiece actualChessPiece : allPieces) {
+            if (actualChessPiece.getName().equals("King") &&
+                !actualChessPiece.getColour().equals(chessPiece.getColour()))
+            return actualChessPiece.getPosition();
+        }
+        return null;
+    }
+    
+    private int calculateRowDistance(int row, int kingRow){
+        return kingRow-row;
+    }
+    
+    private int calculateColumnDistance(int column, int kingColumn){
+        return kingColumn-column;
+    }
+    
+    private int calculateEuclideanDistance(int rowDifference, int columnDifference){
+        return (int) (Math.pow(rowDifference, 2)+Math.pow(columnDifference, 2));
     }
 }

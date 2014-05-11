@@ -29,4 +29,10 @@ public class Position {
         return (int) (Math.pow(position.row-this.row, 2)-
                 Math.pow(position.column-this.column, 2));
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Position position=(Position)obj;
+        return position.row==row&&position.column==column;
+    }
 }

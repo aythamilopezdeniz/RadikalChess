@@ -19,7 +19,7 @@ public class RadikalChess {
     private void execute() {
         ArrayList<ChessPiece> whiteChessPiece=new ChessPieceLoader(filename).load("White");
         ArrayList<ChessPiece> blackChessPiece=new ChessPieceLoader(filename).load("Black");
-        ArrayList<ChessPiece> allChessPieces = null;
+        ArrayList<ChessPiece> allChessPieces = new ArrayList<>();
         for (ChessPiece chessPiece : whiteChessPiece) {
             allChessPieces.add(chessPiece);
         }

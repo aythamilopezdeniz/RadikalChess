@@ -2,6 +2,7 @@ package UserInterface;
 
 import Model.ChessPiece;
 import Model.Image;
+import Model.Player;
 import Model.Position;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -20,14 +21,14 @@ import javax.swing.JPanel;
 
 public class MainFrame extends JFrame {
 
-    private final ArrayList<ChessPiece> whiteChessPieces;
-    private final ArrayList<ChessPiece> blackChessPieces;
-    private final ArrayList<ChessPiece> allChessPieces;
+    private final ArrayList<ChessPiece> whiteChessPieces, 
+            blackChessPieces, allChessPieces;
     private int row = 6;
     private int column = 4;
     private boolean buttonPressed;
     private ChessBoardPanel boardPanel;
     private CellPanel firstClicked;
+    private Player player=new Player("White");
 
     public MainFrame(ArrayList<ChessPiece> whiteChessPieces,
             ArrayList<ChessPiece> blackChessPieces,
@@ -180,16 +181,21 @@ public class MainFrame extends JFrame {
                 paintCell(blackFirst, j, cell);
                 boardPanel.getBoard()[i][j] = cell;
                 boardPanel.getBoard()[i][j].addActionListener(new ActionListener() {
+                    private CellPanel secondClicked;
 
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         Object source = e.getSource();
                         if (source instanceof CellPanel) {
                             if (buttonPressed) {
-                                boardPanel.possibleMove(firstClicked,
-                                        (CellPanel) e.getSource(), boardPanel);
-                                buttonPressed = false;
-                            } else {
+                                secondClicked=(CellPanel)e.getSource();
+                                if(!firstClicked.getCell().getPosition().equals(
+                                        secondClicked.getCell().getPosition())){
+                                    boardPanel.possibleMove(firstClicked,(CellPanel)
+                                            e.getSource(), boardPanel, allChessPieces, player);
+                                }
+                                    buttonPressed = false;
+                            }else {
                                 buttonPressed = true;
                                 firstClicked = (CellPanel) e.getSource();
                             }
