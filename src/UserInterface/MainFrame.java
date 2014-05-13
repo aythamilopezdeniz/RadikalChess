@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -26,15 +25,15 @@ public class MainFrame extends JFrame {
 
     private final ArrayList<ChessPiece> whiteChessPieces,
             blackChessPieces, allChessPieces;
-    private int row = 6;
-    private int column = 4;
-    private boolean buttonPressed;
-    private ChessBoardPanel boardPanel;
-    private CellPanel firstClicked;
-    private Player player = new Player("White");
+    private final Player player = new Player("White");
     private RadikalChessState radikalChessState;
-    private CellPanel secondClicked;
     private RadikalChessGame radikalChessGame;
+    private ChessBoardPanel boardPanel;
+    private CellPanel secondClicked;
+    private CellPanel firstClicked;
+    private boolean buttonPressed;
+    private int column = 4;
+    private int row = 6;
 
     public MainFrame(ArrayList<ChessPiece> whiteChessPieces,
             ArrayList<ChessPiece> blackChessPieces,
@@ -192,17 +191,14 @@ public class MainFrame extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         Object source = e.getSource();
                         if (source instanceof CellPanel) {
-                            if (!radikalChessGame.isTerminal(allChessPieces))
+                            if (!radikalChessGame.isTerminal(radikalChessState))
                                 if (buttonPressed) {
                                 secondClicked = (CellPanel) e.getSource();
                                 if (!firstClicked.getCell().getPosition().equals(
                                         secondClicked.getCell().getPosition())) {
-                                    try {
-                                        radikalChessState.possibleMove(firstClicked, 
-                                                (CellPanel) e.getSource(), boardPanel,
-                                                allChessPieces, player);
-                                    }catch (IOException ex) {
-                                    }
+                                    radikalChessState.possibleMove(firstClicked,
+                                            (CellPanel) e.getSource(), boardPanel,
+                                            allChessPieces, player);
                                 }
                                 buttonPressed = false;
                             } else if (((CellPanel) e.getSource()).getCell().getChessPiece() != null) {

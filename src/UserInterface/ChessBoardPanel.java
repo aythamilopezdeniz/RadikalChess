@@ -2,10 +2,6 @@ package UserInterface;
 
 import Model.ChessBoard;
 import Model.ChessPiece;
-import Model.Movement;
-import Model.Player;
-import Model.ProposeMove;
-import Model.ProposeMoveAttack;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
