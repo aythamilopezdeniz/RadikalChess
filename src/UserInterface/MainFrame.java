@@ -1,5 +1,7 @@
 package UserInterface;
 
+import Aima.RadikalChessGame;
+import Aima.RadikalChessState;
 import Model.ChessPiece;
 import Model.Image;
 import Model.Player;
@@ -11,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -21,14 +24,17 @@ import javax.swing.JPanel;
 
 public class MainFrame extends JFrame {
 
-    private final ArrayList<ChessPiece> whiteChessPieces, 
+    private final ArrayList<ChessPiece> whiteChessPieces,
             blackChessPieces, allChessPieces;
     private int row = 6;
     private int column = 4;
     private boolean buttonPressed;
     private ChessBoardPanel boardPanel;
     private CellPanel firstClicked;
-    private Player player=new Player("White");
+    private Player player = new Player("White");
+    private RadikalChessState radikalChessState;
+    private CellPanel secondClicked;
+    private RadikalChessGame radikalChessGame;
 
     public MainFrame(ArrayList<ChessPiece> whiteChessPieces,
             ArrayList<ChessPiece> blackChessPieces,
@@ -181,21 +187,25 @@ public class MainFrame extends JFrame {
                 paintCell(blackFirst, j, cell);
                 boardPanel.getBoard()[i][j] = cell;
                 boardPanel.getBoard()[i][j].addActionListener(new ActionListener() {
-                    private CellPanel secondClicked;
 
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         Object source = e.getSource();
                         if (source instanceof CellPanel) {
-                            if (buttonPressed) {
-                                secondClicked=(CellPanel)e.getSource();
-                                if(!firstClicked.getCell().getPosition().equals(
-                                        secondClicked.getCell().getPosition())){
-                                    boardPanel.possibleMove(firstClicked,(CellPanel)
-                                            e.getSource(), boardPanel, allChessPieces, player);
+                            if (!radikalChessGame.isTerminal(allChessPieces))
+                                if (buttonPressed) {
+                                secondClicked = (CellPanel) e.getSource();
+                                if (!firstClicked.getCell().getPosition().equals(
+                                        secondClicked.getCell().getPosition())) {
+                                    try {
+                                        radikalChessState.possibleMove(firstClicked, 
+                                                (CellPanel) e.getSource(), boardPanel,
+                                                allChessPieces, player);
+                                    }catch (IOException ex) {
+                                    }
                                 }
-                                    buttonPressed = false;
-                            }else {
+                                buttonPressed = false;
+                            } else if (((CellPanel) e.getSource()).getCell().getChessPiece() != null) {
                                 buttonPressed = true;
                                 firstClicked = (CellPanel) e.getSource();
                             }
@@ -211,12 +221,10 @@ public class MainFrame extends JFrame {
 
     private void placePieces() {
         for (ChessPiece chessPiece : whiteChessPieces) {
-            boardPanel.getBoard()[chessPiece.getPosition().getRow()]
-                    [chessPiece.getPosition().getColumn()].getCell().setChessPiece(chessPiece);
+            boardPanel.getBoard()[chessPiece.getPosition().getRow()][chessPiece.getPosition().getColumn()].getCell().setChessPiece(chessPiece);
         }
         for (ChessPiece chessPiece : blackChessPieces) {
-            boardPanel.getBoard()[chessPiece.getPosition().getRow()]
-                    [chessPiece.getPosition().getColumn()].getCell().setChessPiece(chessPiece);
+            boardPanel.getBoard()[chessPiece.getPosition().getRow()][chessPiece.getPosition().getColumn()].getCell().setChessPiece(chessPiece);
         }
     }
 
@@ -235,21 +243,19 @@ public class MainFrame extends JFrame {
             }
         }
     }
-    
+
     private void loadImages() {
         for (ChessPiece chessPiece : whiteChessPieces) {
-            boardPanel.getBoard()[chessPiece.getPosition().getRow()]
-                                 [chessPiece.getPosition().getColumn()].setIcon(
-                                 convertImageToImageIcon(chessPiece.getImage()));
+            boardPanel.getBoard()[chessPiece.getPosition().getRow()][chessPiece.getPosition().getColumn()].setIcon(
+                    convertImageToImageIcon(chessPiece.getImage()));
         }
         for (ChessPiece chessPiece : blackChessPieces) {
-            boardPanel.getBoard()[chessPiece.getPosition().getRow()]
-                                 [chessPiece.getPosition().getColumn()].setIcon(
-                                 convertImageToImageIcon(chessPiece.getImage()));
+            boardPanel.getBoard()[chessPiece.getPosition().getRow()][chessPiece.getPosition().getColumn()].setIcon(
+                    convertImageToImageIcon(chessPiece.getImage()));
         }
     }
-    
-    private Icon convertImageToImageIcon(Image image){
+
+    private Icon convertImageToImageIcon(Image image) {
         return new ImageIcon(((SwingBitmap) image.getBitmap()).getBufferedImage());
     }
 }

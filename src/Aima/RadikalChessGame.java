@@ -1,7 +1,9 @@
 package Aima;
 
 import Model.Movement;
+import Model.Pieces.King;
 import Model.Player;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RadikalChessGame implements Game <RadikalChessState, Movement, Player>{
@@ -31,17 +33,30 @@ public class RadikalChessGame implements Game <RadikalChessState, Movement, Play
 
     @Override
     public List<Movement> getActions(RadikalChessState state) {
-        return null;
+        ArrayList<Movement> actions=new ArrayList<>();
+        return actions;
     }
 
     @Override
     public RadikalChessState getResult(RadikalChessState state, Movement movement) {
-        return null;
+        RadikalChessState radikalChessState = null;
+        try {
+            radikalChessState = (RadikalChessState) state.clone();
+        } catch (CloneNotSupportedException ex) {
+        }
+        return radikalChessState;
     }
 
     @Override
     public boolean isTerminal(RadikalChessState state) {
-        return state.isTerminal();
+        int numberKing=0;
+        for (int i=0;i<state.getChessBoard().getRow();i++) {
+            for (int j=0;j<state.getChessBoard().getColumn();j++) {
+                if(state.getChessBoard().getCell()[i][j].getChessPiece() instanceof King)
+                    numberKing++;
+            }
+        }
+        return numberKing<2;
     }
 
    @Override

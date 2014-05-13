@@ -19,33 +19,8 @@ public class ChessBoardPanel extends JPanel {
     public CellPanel[][] getBoard() {
         return cellPanel;
     }
-
-    public void possibleMove(CellPanel firstClicked, CellPanel secondClicked, 
-            ChessBoardPanel boardPanel, ArrayList allChessPiece, Player player) {
-        if(firstClicked.getCell().getChessPiece().getColour().equals(player.getPlayer())){
-            if (ProposeMoveAttack.getInstance().selectMoveAttack(
-                    firstClicked.getCell().getChessPiece(),
-                    createMovement(firstClicked, secondClicked),
-                    createBoard(boardPanel))) {
-                player.setPlayer((player.getPlayer().equals("White"))?"Black":"White");
-                ChessPiece piece=secondClicked.getCell().getChessPiece();
-                updateChessPieceIcon(firstClicked, secondClicked, allChessPiece);
-                allChessPiece.remove(piece);
-            }
-            if (ProposeMove.getInstance().selectMove(
-                    firstClicked.getCell().getChessPiece(),
-                    createMovement(firstClicked, secondClicked),
-                    createBoard(boardPanel))&&
-                    ProposeMove.getInstance().isEuclideanDistanceReduced(allChessPiece
-                            , createMovement(firstClicked, secondClicked),
-                            firstClicked.getCell().getChessPiece())) {
-                player.setPlayer((player.getPlayer().equals("White"))?"Black":"White");
-                updateChessPieceIcon(firstClicked, secondClicked, allChessPiece);
-            }
-        }
-    }
     
-    private void updateChessPieceIcon(CellPanel firstClicked, CellPanel secondClicked,
+    public void updateChessPieceIcon(CellPanel firstClicked, CellPanel secondClicked,
             ArrayList<ChessPiece>allPieces){
         for (ChessPiece chessPiece : allPieces) {
             if (chessPiece.getName().equals(firstClicked.getCell().getChessPiece().getName())&&
@@ -54,12 +29,6 @@ public class ChessBoardPanel extends JPanel {
         }
         secondClicked.addPiece(firstClicked);
         firstClicked.removePiece();
-    }
-    
-    private Movement createMovement(CellPanel firstClicked, 
-            CellPanel secondClicked) {
-        return new Movement(firstClicked.getCell().getPosition(), 
-                secondClicked.getCell().getPosition());
     }
 
     private ChessBoard createBoard(ChessBoardPanel boardPanel) {

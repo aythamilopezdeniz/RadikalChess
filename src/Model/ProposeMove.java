@@ -5,7 +5,6 @@ import Model.Pieces.King;
 import Model.Pieces.Pawn;
 import Model.Pieces.Queen;
 import Model.Pieces.Rook;
-import java.util.ArrayList;
 
 public class ProposeMove {
     private static ProposeMove instance;
@@ -184,8 +183,19 @@ public class ProposeMove {
         }
         return false;
     }
+
+        
+    public boolean isEuclideanDistanceReduce(ChessBoard chessBoard, 
+            Movement movement, Player player) {
+        return new Position(movement.getDestination().getRow(), 
+                movement.getDestination().getColumn
+        ()).euclideanDistance(chessBoard.searchPositionKing(player))<
+                new Position(movement.getOrigin().getRow(), 
+                        movement.getOrigin().getColumn
+        ()).euclideanDistance(chessBoard.searchPositionKing(player));
+    }
     
-    public boolean isEuclideanDistanceReduced(ArrayList<ChessPiece> allPieces, Movement movement,
+/*    public boolean isEuclideanDistanceReduced(ArrayList<ChessPiece> allPieces, Movement movement,
             ChessPiece chessPiece){
         int d1, d2;
         if (searchKingPosition(allPieces, chessPiece) != null){
@@ -222,5 +232,5 @@ public class ProposeMove {
     
     private int calculateEuclideanDistance(int rowDifference, int columnDifference){
         return (int) (Math.pow(rowDifference, 2)+Math.pow(columnDifference, 2));
-    }
+    }*/
 }

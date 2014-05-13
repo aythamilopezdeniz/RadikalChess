@@ -26,7 +26,7 @@ public class ChessBoard implements Cloneable {
             for (int j=0;j<getColumn();j++) {
                 if(cell[i][j].getChessPiece()!=null){
                     if(cell[i][j].getChessPiece() instanceof King&&
-                            cell[i][j].getChessPiece().getColour().equals(player.getPlayer()))
+                            !cell[i][j].getChessPiece().getColour().equals(player.getPlayer()))
                         return cell[i][j].getChessPiece().getPosition();
                 }
             }
