@@ -8,6 +8,7 @@ import Model.Player;
 import Model.Position;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -210,18 +211,36 @@ public class MainFrame extends JFrame {
                                 }
                                 buttonPressed = false;
                             } else if (((CellPanel)e.getSource()).getCell().getChessPiece()!=null) {
-                                buttonPressed = true;
-                                firstClicked = (CellPanel) e.getSource();
+                                buttonPressed=true;
+                                firstClicked=(CellPanel) e.getSource();
                             }
                         }
                     }
                 });
                 boardPanel.add(cell);
             }
-            blackFirst = !blackFirst;
+            blackFirst=!blackFirst;
         }
         placePieces();
     }
+/*if (buttonPressed) {
+secondClicked = (CellButton) e.getSource();
+if (!firstClicked.getCell().getPosition().equals(
+secondClicked.getCell().getPosition())) {
+if (currentState.possibleMove(createMovement(firstClicked.getCell().getPosition(), 
+    secondClicked.getCell().getPosition()), allChessPieces)) {
+boardPanel.updateChessPiece(createMovement(firstClicked.getCell().getPosition(), 
+    secondClicked.getCell().getPosition()), allChessPieces);
+}
+try {
+boardPanel.checkPromotionedPawn(createMovement(firstClicked.getCell().getPosition(), 
+secondClicked.getCell().getPosition()), allChessPieces, currentState);
+} catch (IOException ex) {
+}
+}
+buttonPressed = false;
+}
+*/
 
     private void placePieces() {
         for (ChessPiece chessPiece : whiteChessPieces) {

@@ -1,5 +1,6 @@
 package Aima;
 
+import Aima.Heuristic.HeuristicAttack;
 import Model.Movement;
 import Model.Pieces.King;
 import Model.Player;
@@ -66,11 +67,12 @@ public class RadikalChessGame implements Game <RadikalChessState, Movement, Play
 
     @Override
     public Player getPlayer(RadikalChessState state) {
-        return null;
+        return state.getPlayer();
     }
 
     @Override
-    public double getUtility(RadikalChessState state, Player player) {
-        return 0;
+    public double getUtility(RadikalChessState state) {
+        HeuristicAttack heuristicAttack=new HeuristicAttack();
+        return heuristicAttack.getHeuristic(state);
     }
 }
