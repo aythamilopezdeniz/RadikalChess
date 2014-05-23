@@ -8,7 +8,6 @@ import Model.Player;
 import Model.Position;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -31,7 +30,7 @@ public class MainFrame extends JFrame {
             blackChessPieces, allChessPieces;
     private final Player player = new Player("White");
     private RadikalChessState radikalChessState;
-//    private RadikalChessGame radikalChessGame=new RadikalChessGame(radikalChessState);
+    //private RadikalChessGame radikalChessGame=new RadikalChessGame();
     private ChessBoardPanel boardPanel;
     private JTextField nodesExpanded;
     private CellPanel secondClicked;
@@ -155,9 +154,8 @@ public class MainFrame extends JFrame {
                     return;
                 }
                 if (algorithm.getSelectedItem().equals("MinimaxSearch")) {
-                    if (algorithm.getSelectedItem().equals("AlphaBetaSearch")) {
-                        return;
-                    }
+                }
+                if (algorithm.getSelectedItem().equals("AlphaBetaSearch")) {
                 }
             }
         });
@@ -176,6 +174,12 @@ public class MainFrame extends JFrame {
 
     private JButton createProposeMoveButton() {
         JButton proposeMove = new JButton("Propose Move");
+        proposeMove.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
         return proposeMove;
     }
 
