@@ -1,9 +1,13 @@
 package UserInterface;
 
+import Aima.RadikalChessGame;
 import Aima.RadikalChessState;
+import Aima.Search.AdversarialSearch;
+import Aima.Search.MinimaxSearch;
 import Model.ChessBoard;
 import Model.ChessPiece;
 import Model.Image;
+import Model.Movement;
 import Model.Player;
 import Model.Position;
 import java.awt.BorderLayout;
@@ -30,7 +34,7 @@ public class MainFrame extends JFrame {
             blackChessPieces, allChessPieces;
     private final Player player = new Player("White");
     private RadikalChessState radikalChessState;
-    //private RadikalChessGame radikalChessGame=new RadikalChessGame();
+    private RadikalChessGame radikalChessGame;
     private ChessBoardPanel boardPanel;
     private JTextField nodesExpanded;
     private CellPanel secondClicked;
@@ -178,6 +182,14 @@ public class MainFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                AdversarialSearch<RadikalChessState, Movement> search;
+                Movement action;
+                search=MinimaxSearch.createFor(radikalChessGame);
+                action=search.makeDecision(radikalChessState);
+                player.setPlayer((player.getPlayer().equals("White"))?"Black":"White");
+                radikalChessState.possibleMove(action, allChessPieces);
+                boardPanel.updateChessPiece(newMovement(
+                        action.getOrigin(), action.getDestination()), allChessPieces);
             }
         });
         return proposeMove;
@@ -204,14 +216,18 @@ public class MainFrame extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         Object source = e.getSource();
                         if (source instanceof CellPanel) {
-//                            if (!radikalChessGame.isTerminal(radikalChessState))
+                            //if (!radikalChessGame.isTerminal(radikalChessState))
                                 if (buttonPressed) {
                                 secondClicked = (CellPanel) e.getSource();
                                 if (!firstClicked.getCell().getPosition().equals(
                                         secondClicked.getCell().getPosition())) {
-                                    radikalChessState.possibleMove(firstClicked,
-                                            (CellPanel) e.getSource(), boardPanel,
-                                            allChessPieces, player);
+                                    if(radikalChessState.possibleMove(
+                                            newMovement(firstClicked.getCell().getPosition(),
+                                                    secondClicked.getCell().getPosition()), allChessPieces)){
+                                        boardPanel.updateChessPiece(newMovement(
+                                                firstClicked.getCell().getPosition(), 
+                                                secondClicked.getCell().getPosition()), allChessPieces);
+                                    }
                                 }
                                 buttonPressed = false;
                             } else if (((CellPanel)e.getSource()).getCell().getChessPiece()!=null) {
@@ -227,24 +243,10 @@ public class MainFrame extends JFrame {
         }
         placePieces();
     }
-/*if (buttonPressed) {
-secondClicked = (CellButton) e.getSource();
-if (!firstClicked.getCell().getPosition().equals(
-secondClicked.getCell().getPosition())) {
-if (currentState.possibleMove(createMovement(firstClicked.getCell().getPosition(), 
-    secondClicked.getCell().getPosition()), allChessPieces)) {
-boardPanel.updateChessPiece(createMovement(firstClicked.getCell().getPosition(), 
-    secondClicked.getCell().getPosition()), allChessPieces);
-}
-try {
-boardPanel.checkPromotionedPawn(createMovement(firstClicked.getCell().getPosition(), 
-secondClicked.getCell().getPosition()), allChessPieces, currentState);
-} catch (IOException ex) {
-}
-}
-buttonPressed = false;
-}
-*/
+
+    private Movement newMovement(Position origin, Position destination) {
+        return new Movement(origin, destination);
+    }
 
     private void placePieces() {
         for (ChessPiece chessPiece : whiteChessPieces) {

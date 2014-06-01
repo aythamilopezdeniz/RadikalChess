@@ -27,6 +27,7 @@ public class CellPanel extends JButton {
         this.cell.setChessPiece(null);
         this.setIcon(null);
     }
+    
     public void addPiece(CellPanel firstClicked) {
         this.cell.setChessPiece(firstClicked.getCell().getChessPiece());
         this.setIcon(convertImageToIcon(firstClicked.getCell().getChessPiece().getImage()));

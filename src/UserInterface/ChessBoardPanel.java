@@ -1,7 +1,7 @@
 package UserInterface;
 
 import Aima.RadikalChessState;
-import Main.RadikalChess;
+import Control.RadikalChessControl;
 import Model.ChessBoard;
 import Model.ChessPiece;
 import Model.Image;
@@ -68,7 +68,7 @@ public class ChessBoardPanel extends JPanel {
                                 movement).getCell().getChessPiece().getPosition())) {
                     chessPiece=new Queen("Queen", chessPiece.getPosition(), chessPiece.getColour());
                     chessPiece.setImage(new Image(new SwingBitmap(ImageIO.read(new File(
-                            RadikalChess.filename+"/"+chessPiece.getColour()+"Queen"+".png")))));
+                            RadikalChessControl.filename+"/"+chessPiece.getColour()+"Queen"+".png")))));
                     destinationCellButton(movement).getCell().setChessPiece(chessPiece);
                     state.getChessBoard().getCell()[movement.getDestination().getRow()]
                             [movement.getDestination().getColumn()].setChessPiece(chessPiece);

@@ -8,15 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RadikalChessGame implements Game <RadikalChessState, Movement, Player>{
-    private RadikalChessState initialState;
+    private final RadikalChessState initialState;
     private RadikalChessState actualState;
 
-    public RadikalChessGame(RadikalChessState radikalChessState) {
-        try {
-            this.initialState=(RadikalChessState) radikalChessState.clone();
-            this.actualState=(RadikalChessState) radikalChessState.clone();
-        } catch (CloneNotSupportedException ex) {
-        }
+    public RadikalChessGame(RadikalChessState radikalChessState) throws CloneNotSupportedException {
+        this.initialState=(RadikalChessState) radikalChessState.clone();
+        this.actualState=(RadikalChessState) radikalChessState.clone();
     }
 
     public RadikalChessState getActualState() {
@@ -43,6 +40,7 @@ public class RadikalChessGame implements Game <RadikalChessState, Movement, Play
         RadikalChessState radikalChessState = null;
         try {
             radikalChessState = (RadikalChessState) state.clone();
+            radikalChessState.possibleMove(movement, null);
         } catch (CloneNotSupportedException ex) {
         }
         return radikalChessState;
