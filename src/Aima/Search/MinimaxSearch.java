@@ -40,7 +40,7 @@ public class MinimaxSearch<STATE, ACTION, PLAYER> implements
 															// value
 		expandedNodes++;
 		if (game.isTerminal(state))
-			return game.getUtility(state);
+			return game.getUtility(state, player);
 		double value = Double.NEGATIVE_INFINITY;
 		for (ACTION action : game.getActions(state))
 			value = Math.max(value,
@@ -52,7 +52,7 @@ public class MinimaxSearch<STATE, ACTION, PLAYER> implements
 															// value
 		expandedNodes++;
 		if (game.isTerminal(state))
-			return game.getUtility(state);
+			return game.getUtility(state, player);
 		double value = Double.POSITIVE_INFINITY;
 		for (ACTION action : game.getActions(state))
 			value = Math.min(value,

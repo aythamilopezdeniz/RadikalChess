@@ -4,6 +4,7 @@ import Aima.RadikalChessGame;
 import Aima.RadikalChessState;
 import Aima.Search.AdversarialSearch;
 import Aima.Search.MinimaxSearch;
+import Model.Cell;
 import Model.ChessBoard;
 import Model.ChessPiece;
 import Model.Image;
@@ -37,7 +38,6 @@ public class MainFrame extends JFrame {
     private RadikalChessGame radikalChessGame;
     private ChessBoardPanel boardPanel;
     private JTextField nodesExpanded;
-    private CellPanel secondClicked;
     private JTextField nodesExamine;
     private CellPanel firstClicked;
     private boolean buttonPressed;
@@ -68,10 +68,10 @@ public class MainFrame extends JFrame {
 
     private JPanel createToolbar() {
         JPanel panel = new JPanel();
-        panel.add(createDifficulty());
-        panel.add(createBoardSize());
+        //panel.add(createDifficulty());
+        //panel.add(createBoardSize());
         panel.add(createAlgorithm());
-        panel.add(createPlayButton());
+        //panel.add(createPlayButton());
         panel.add(createResetButton());
         panel.add(createProposeMoveButton());
         return panel;
@@ -80,7 +80,6 @@ public class MainFrame extends JFrame {
     private JComboBox createDifficulty() {
         final JComboBox difficulty = new JComboBox(new String[]{"Easy", "Medium", "Hard"});
         difficulty.addItemListener(new ItemListener() {
-
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() != ItemEvent.SELECTED) {
@@ -101,7 +100,6 @@ public class MainFrame extends JFrame {
     private JComboBox createBoardSize() {
         final JComboBox size = new JComboBox(new String[]{"Size=6x4", "Size=8x6", "Size=10x8", "Size=12x10"});
         size.addItemListener(new ItemListener() {
-
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() != ItemEvent.SELECTED) {
@@ -151,7 +149,6 @@ public class MainFrame extends JFrame {
     private JComboBox createAlgorithm() {
         final JComboBox algorithm = new JComboBox(new String[]{"MinimaxSearch", "AlphaBetaSearch"});
         algorithm.addItemListener(new ItemListener() {
-
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() != ItemEvent.SELECTED) {
@@ -179,15 +176,14 @@ public class MainFrame extends JFrame {
     private JButton createProposeMoveButton() {
         JButton proposeMove = new JButton("Propose Move");
         proposeMove.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 AdversarialSearch<RadikalChessState, Movement> search;
                 Movement action;
-                search=MinimaxSearch.createFor(radikalChessGame);
-                action=search.makeDecision(radikalChessState);
-                player.setPlayer((player.getPlayer().equals("White"))?"Black":"White");
-                radikalChessState.possibleMove(action, allChessPieces);
+                search = MinimaxSearch.createFor(radikalChessGame);
+                action = search.makeDecision(radikalChessState);
+                player.setPlayer((player.getPlayer().equals("White")) ? "Black" : "White");
+                radikalChessState.possibleMove(action);
                 boardPanel.updateChessPiece(newMovement(
                         action.getOrigin(), action.getDestination()), allChessPieces);
             }
@@ -211,35 +207,36 @@ public class MainFrame extends JFrame {
                 paintCell(blackFirst, j, cell);
                 boardPanel.getBoard()[i][j] = cell;
                 boardPanel.getBoard()[i][j].addActionListener(new ActionListener() {
+                    private CellPanel secondClicked;
 
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         Object source = e.getSource();
                         if (source instanceof CellPanel) {
                             //if (!radikalChessGame.isTerminal(radikalChessState))
-                                if (buttonPressed) {
+                            if (buttonPressed) {
                                 secondClicked = (CellPanel) e.getSource();
                                 if (!firstClicked.getCell().getPosition().equals(
                                         secondClicked.getCell().getPosition())) {
-                                    if(radikalChessState.possibleMove(
+                                    if (radikalChessState.possibleMove(
                                             newMovement(firstClicked.getCell().getPosition(),
-                                                    secondClicked.getCell().getPosition()), allChessPieces)){
+                                            secondClicked.getCell().getPosition()))) {
                                         boardPanel.updateChessPiece(newMovement(
-                                                firstClicked.getCell().getPosition(), 
+                                                firstClicked.getCell().getPosition(),
                                                 secondClicked.getCell().getPosition()), allChessPieces);
                                     }
                                 }
                                 buttonPressed = false;
-                            } else if (((CellPanel)e.getSource()).getCell().getChessPiece()!=null) {
-                                buttonPressed=true;
-                                firstClicked=(CellPanel) e.getSource();
+                            } else if (((CellPanel) e.getSource()).getCell().getChessPiece() != null) {
+                                buttonPressed = true;
+                                firstClicked = (CellPanel) e.getSource();
                             }
                         }
                     }
                 });
                 boardPanel.add(cell);
             }
-            blackFirst=!blackFirst;
+            blackFirst = !blackFirst;
         }
         placePieces();
     }
@@ -250,34 +247,36 @@ public class MainFrame extends JFrame {
 
     private void placePieces() {
         for (ChessPiece chessPiece : whiteChessPieces) {
-            boardPanel.getBoard()[chessPiece.getPosition().getRow()]
-                    [chessPiece.getPosition().getColumn()].getCell().setChessPiece(chessPiece);
+            boardPanel.getBoard()[chessPiece.getPosition().getRow()][chessPiece.getPosition().getColumn()].getCell().setChessPiece(chessPiece);
         }
         for (ChessPiece chessPiece : blackChessPieces) {
-            boardPanel.getBoard()[chessPiece.getPosition().getRow()]
-                    [chessPiece.getPosition().getColumn()].getCell().setChessPiece(chessPiece);
+            boardPanel.getBoard()[chessPiece.getPosition().getRow()][chessPiece.getPosition().getColumn()].getCell().setChessPiece(chessPiece);
         }
     }
 
     private void paintCell(boolean blackFirst, int j, CellPanel cell) {
         if (blackFirst) {
-            if(j%2==0)cell.setBackground(Color.DARK_GRAY);
-            else cell.setBackground(Color.WHITE);
+            if (j % 2 == 0) {
+                cell.setBackground(Color.DARK_GRAY);
+            } else {
+                cell.setBackground(Color.WHITE);
+            }
         } else {
-            if(j%2==0)cell.setBackground(Color.WHITE);
-            else cell.setBackground(Color.DARK_GRAY);
+            if (j % 2 == 0) {
+                cell.setBackground(Color.WHITE);
+            } else {
+                cell.setBackground(Color.DARK_GRAY);
+            }
         }
     }
 
     private void loadImages() {
         for (ChessPiece chessPiece : whiteChessPieces) {
-            boardPanel.getBoard()[chessPiece.getPosition().getRow()]
-                    [chessPiece.getPosition().getColumn()].setIcon(
+            boardPanel.getBoard()[chessPiece.getPosition().getRow()][chessPiece.getPosition().getColumn()].setIcon(
                     convertImageToImageIcon(chessPiece.getImage()));
         }
         for (ChessPiece chessPiece : blackChessPieces) {
-            boardPanel.getBoard()[chessPiece.getPosition().getRow()]
-                    [chessPiece.getPosition().getColumn()].setIcon(
+            boardPanel.getBoard()[chessPiece.getPosition().getRow()][chessPiece.getPosition().getColumn()].setIcon(
                     convertImageToImageIcon(chessPiece.getImage()));
         }
     }
@@ -285,19 +284,20 @@ public class MainFrame extends JFrame {
     private Icon convertImageToImageIcon(Image image) {
         return new ImageIcon(((SwingBitmap) image.getBitmap()).getBufferedImage());
     }
-    
+
     private void fillBoard() {
-        ChessBoard chessBoard=new ChessBoard(row, column);
-        for (int i=0;i<row;i++) {
-           for (int j=0;j<column;j++) {
-                chessBoard.getCell()[i][j]=boardPanel.getBoard()[i][j].getCell();
-           }
+        ChessBoard chessBoard = new ChessBoard(row, column);
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+                chessBoard.getCell()[i][j] = new Cell(boardPanel.getBoard()[i][j].getCell().getChessPiece(), 
+                        new Position(i, j));
+            }
         }
-        radikalChessState=new RadikalChessState(chessBoard, player);
+        radikalChessState = new RadikalChessState(chessBoard, player);
     }
 
     private JPanel createResult() {
-        JPanel message=new JPanel();
+        JPanel message = new JPanel();
         message.add(createNodesExpandedPanel(), FlowLayout.LEFT);
         message.add(createNodesExaminePanel(), FlowLayout.LEFT);
         message.add(createPathCostPanel(), FlowLayout.RIGHT);
@@ -305,8 +305,8 @@ public class MainFrame extends JFrame {
     }
 
     private JPanel createNodesExpandedPanel() {
-        JPanel resultNodesExpanded=new JPanel();
-        nodesExpanded=new JTextField(5);
+        JPanel resultNodesExpanded = new JPanel();
+        nodesExpanded = new JTextField(5);
         nodesExpanded.setEditable(false);
         resultNodesExpanded.setLayout(new FlowLayout(FlowLayout.LEFT));
         resultNodesExpanded.add(new JLabel("Nº de nodos expandidos:"));
@@ -315,8 +315,8 @@ public class MainFrame extends JFrame {
     }
 
     private JPanel createNodesExaminePanel() {
-        JPanel resultNodesExamine=new JPanel();
-        nodesExamine=new JTextField(5);
+        JPanel resultNodesExamine = new JPanel();
+        nodesExamine = new JTextField(5);
         nodesExamine.setEditable(false);
         resultNodesExamine.setLayout(new FlowLayout(FlowLayout.LEFT));
         resultNodesExamine.add(new JLabel("Nº de nodos visitados:"));
@@ -325,8 +325,8 @@ public class MainFrame extends JFrame {
     }
 
     private JPanel createPathCostPanel() {
-        JPanel resultPathCost=new JPanel();
-        pathCost=new JTextField(3);
+        JPanel resultPathCost = new JPanel();
+        pathCost = new JTextField(3);
         pathCost.setEditable(false);
         resultPathCost.setLayout(new FlowLayout(FlowLayout.LEFT));
         resultPathCost.add(new JLabel("Coste del camino:"));
