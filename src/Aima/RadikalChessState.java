@@ -94,7 +94,7 @@ public class RadikalChessState implements Cloneable {
                                 chessBoard.searchPositionKing(player));
     }
     
-    public boolean isDistanceManhattanReduce(ChessBoard chessBoard, 
+    public boolean isManhattanDistanceReduce(ChessBoard chessBoard, 
             Movement movement, Player player){
         return new Position(movement.getDestination().getRow(),
                 movement.getDestination().getColumn()).manhattanDistance(
