@@ -93,6 +93,16 @@ public class RadikalChessState implements Cloneable {
                         movement.getOrigin().getColumn()).euclideanDistance(
                                 chessBoard.searchPositionKing(player));
     }
+    
+    public boolean isDistanceManhattanReduce(ChessBoard chessBoard, 
+            Movement movement, Player player){
+        return new Position(movement.getDestination().getRow(),
+                movement.getDestination().getColumn()).manhattanDistance(
+                chessBoard.searchPositionKing(player))<
+                new Position(movement.getOrigin().getRow(), 
+                movement.getOrigin().getColumn()).manhattanDistance(
+                chessBoard.searchPositionKing(player));
+    }
 
     @Override
     protected Object clone() throws CloneNotSupportedException {

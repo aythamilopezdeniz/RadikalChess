@@ -13,7 +13,6 @@ import Model.Player;
 import Model.Position;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -32,7 +31,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.plaf.SplitPaneUI;
 
 public class MainFrame extends JFrame {
 
@@ -74,6 +72,21 @@ public class MainFrame extends JFrame {
         split.setDividerLocation(350);
         split.setEnabled(false);
         this.getContentPane().add(split);
+    }
+    
+    private JScrollPane createScrollPane() {
+        JScrollPane scroll=new JScrollPane(createActionsPanel());
+        scroll.setBounds(30, 30, 200, 200);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        return scroll;
+    }
+    
+    private JTextArea createActionsPanel() {
+        actionsPanel=new JTextArea("Final movements [Row,Column]:\n");
+        actionsPanel.setLineWrap(true);
+        actionsPanel.setWrapStyleWord(true);
+        actionsPanel.setEditable(false);
+        return actionsPanel;
     }
 
 
@@ -352,20 +365,5 @@ public class MainFrame extends JFrame {
         resultPathCost.add(new JLabel("Coste del camino:"));
         resultPathCost.add(pathCost);
         return resultPathCost;
-    }
-
-        private JScrollPane createScrollPane() {
-        JScrollPane scroll=new JScrollPane(createActionsPanel());
-        scroll.setBounds(30, 30, 200, 200);
-        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        return scroll;
-    }
-    
-    private JTextArea createActionsPanel() {
-        actionsPanel=new JTextArea("Final movements:\n");
-        actionsPanel.setLineWrap(true);
-        actionsPanel.setWrapStyleWord(true);
-        actionsPanel.setEditable(false);
-        return actionsPanel;
     }
 }

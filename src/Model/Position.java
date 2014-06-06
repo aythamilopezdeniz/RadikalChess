@@ -29,6 +29,11 @@ public class Position {
         return (int) (Math.pow(position.row-this.row, 2)-
                 Math.pow(position.column-this.column, 2));
     }
+    
+    public int manhattanDistance(Position position){
+        return (Math.abs(position.row-this.row)-
+                Math.abs(position.column-this.column));
+    }
 
     @Override
     public boolean equals(Object obj) {
