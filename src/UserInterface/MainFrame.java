@@ -13,6 +13,7 @@ import Model.Player;
 import Model.Position;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -27,7 +28,11 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.plaf.SplitPaneUI;
 
 public class MainFrame extends JFrame {
 
@@ -35,15 +40,16 @@ public class MainFrame extends JFrame {
             blackChessPieces, allChessPieces;
     private final Player player = new Player("White");
     private RadikalChessState radikalChessState;
-    private RadikalChessGame radikalChessGame;
+    private RadikalChessGame radikalChessGame=new RadikalChessGame();
     private ChessBoardPanel boardPanel;
     private JTextField nodesExpanded;
     private JTextField nodesExamine;
     private CellPanel firstClicked;
+    private JTextArea actionsPanel;
     private boolean buttonPressed;
+    private JTextField pathCost;
     private int column = 4;
     private int row = 6;
-    private JTextField pathCost;
 
     public MainFrame(ArrayList<ChessPiece> whiteChessPieces,
             ArrayList<ChessPiece> blackChessPieces,
@@ -55,14 +61,24 @@ public class MainFrame extends JFrame {
         this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.createComponent();
+        createSplitPane();
         fillBoard();
         this.pack();
         this.setLocationRelativeTo(null);
     }
+    
+    private void createSplitPane() {
+        JSplitPane split=new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+                createBoardPanel(), createScrollPane());
+        split.setResizeWeight(1);
+        split.setDividerLocation(350);
+        split.setEnabled(false);
+        this.getContentPane().add(split);
+    }
+
 
     private void createComponent() {
         this.add(createToolbar(), BorderLayout.NORTH);
-        this.add(createBoardPanel(), BorderLayout.CENTER);
         this.add(createResult(), BorderLayout.SOUTH);
     }
 
@@ -178,14 +194,17 @@ public class MainFrame extends JFrame {
         proposeMove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AdversarialSearch<RadikalChessState, Movement> search;
-                Movement action;
-                search = MinimaxSearch.createFor(radikalChessGame);
-                action = search.makeDecision(radikalChessState);
-                player.setPlayer((player.getPlayer().equals("White")) ? "Black" : "White");
-                radikalChessState.possibleMove(action);
-                boardPanel.updateChessPiece(newMovement(
-                        action.getOrigin(), action.getDestination()), allChessPieces);
+                if(!radikalChessGame.isTerminal(radikalChessState)){
+                    AdversarialSearch<RadikalChessState, Movement> search;
+                    Player player=new Player(radikalChessState.getPlayer().getPlayer());
+                    Movement action;
+                    search = MinimaxSearch.createFor(radikalChessGame);
+                    action = search.makeDecision(radikalChessState);
+                    radikalChessState.setPlayer(player);
+                    radikalChessState.mark(action);
+                    boardPanel.updateChessPiece(newMovement(
+                            action.getOrigin(), action.getDestination()));
+                }
             }
         });
         return proposeMove;
@@ -213,23 +232,24 @@ public class MainFrame extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         Object source = e.getSource();
                         if (source instanceof CellPanel) {
-                            //if (!radikalChessGame.isTerminal(radikalChessState))
-                            if (buttonPressed) {
-                                secondClicked = (CellPanel) e.getSource();
-                                if (!firstClicked.getCell().getPosition().equals(
-                                        secondClicked.getCell().getPosition())) {
-                                    if (radikalChessState.possibleMove(
-                                            newMovement(firstClicked.getCell().getPosition(),
-                                            secondClicked.getCell().getPosition()))) {
-                                        boardPanel.updateChessPiece(newMovement(
-                                                firstClicked.getCell().getPosition(),
-                                                secondClicked.getCell().getPosition()), allChessPieces);
+                            if (!radikalChessGame.isTerminal(radikalChessState)){
+                                if (buttonPressed) {
+                                    secondClicked = (CellPanel) e.getSource();
+                                    if (!firstClicked.getCell().getPosition().equals(
+                                            secondClicked.getCell().getPosition())) {
+                                        if (radikalChessState.possibleMove(
+                                                newMovement(firstClicked.getCell().getPosition(),
+                                                        secondClicked.getCell().getPosition()))) {
+                                            boardPanel.updateChessPiece(newMovement(
+                                                    firstClicked.getCell().getPosition(),
+                                                    secondClicked.getCell().getPosition()));
+                                        }
                                     }
+                                    buttonPressed = false;
+                                } else if (((CellPanel) e.getSource()).getCell().getChessPiece() != null) {
+                                    buttonPressed = true;
+                                    firstClicked = (CellPanel) e.getSource();
                                 }
-                                buttonPressed = false;
-                            } else if (((CellPanel) e.getSource()).getCell().getChessPiece() != null) {
-                                buttonPressed = true;
-                                firstClicked = (CellPanel) e.getSource();
                             }
                         }
                     }
@@ -289,7 +309,7 @@ public class MainFrame extends JFrame {
         ChessBoard chessBoard = new ChessBoard(row, column);
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                chessBoard.getCell()[i][j] = new Cell(boardPanel.getBoard()[i][j].getCell().getChessPiece(), 
+                chessBoard.getCell()[i][j]=new Cell(boardPanel.getBoard()[i][j].getCell().getChessPiece(), 
                         new Position(i, j));
             }
         }
@@ -332,5 +352,20 @@ public class MainFrame extends JFrame {
         resultPathCost.add(new JLabel("Coste del camino:"));
         resultPathCost.add(pathCost);
         return resultPathCost;
+    }
+
+        private JScrollPane createScrollPane() {
+        JScrollPane scroll=new JScrollPane(createActionsPanel());
+        scroll.setBounds(30, 30, 200, 200);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        return scroll;
+    }
+    
+    private JTextArea createActionsPanel() {
+        actionsPanel=new JTextArea("Final movements:\n");
+        actionsPanel.setLineWrap(true);
+        actionsPanel.setWrapStyleWord(true);
+        actionsPanel.setEditable(false);
+        return actionsPanel;
     }
 }

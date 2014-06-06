@@ -2,7 +2,6 @@ package Aima;
 
 import Aima.Heuristic.HeuristicAttack;
 import Model.Movement;
-import Model.Pieces.King;
 import Model.Player;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,11 +45,12 @@ public class RadikalChessGame implements Game <RadikalChessState, Movement, Play
         int numberKing=0;
         for (int i=0;i<state.getChessBoard().getRow();i++) {
             for (int j=0;j<state.getChessBoard().getColumn();j++) {
-                if(state.getChessBoard().getCell()[i][j].getChessPiece() instanceof King)
+                if(state.getChessBoard().getCell()[i][j].getChessPiece()!=null)
+                        if(state.getChessBoard().getCell()[i][j].getChessPiece().getName().equals("King"))
                     numberKing++;
             }
         }
-        return numberKing<2;
+        return numberKing!=2;
     }
 
    @Override

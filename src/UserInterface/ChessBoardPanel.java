@@ -25,17 +25,6 @@ public class ChessBoardPanel extends JPanel {
     public CellPanel[][] getBoard() {
         return cellPanel;
     }
-    
-    public void updateChessPieceIcon(CellPanel firstClicked, CellPanel secondClicked,
-            ArrayList<ChessPiece>allPieces){
-        for (ChessPiece chessPiece : allPieces) {
-            if (chessPiece.getName().equals(firstClicked.getCell().getChessPiece().getName())&&
-                    chessPiece.getColour().equals(firstClicked.getCell().getChessPiece().getColour()))
-                chessPiece.setPosition(secondClicked.getCell().getPosition());
-        }
-        secondClicked.addPiece(firstClicked);
-        firstClicked.removePiece();
-    }
 
     private ChessBoard createBoard(ChessBoardPanel boardPanel) {
         ChessBoard chessBoard=new ChessBoard(cellPanel.length, cellPanel[0].length);
@@ -47,8 +36,7 @@ public class ChessBoardPanel extends JPanel {
         return chessBoard;
     }
 
-    public void updateChessPiece(Movement movement,
-        ArrayList<ChessPiece> allPieces) {
+    public void updateChessPiece(Movement movement) {
         destinationCellButton(movement).addPiece(originCellButton(movement));
         originCellButton(movement).removePiece();
     }

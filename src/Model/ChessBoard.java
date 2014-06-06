@@ -9,11 +9,11 @@ public class ChessBoard implements Cloneable {
         cell=new Cell[row][column];
     }
 
-    public int getColumn() {
+    public int getRow() {
         return cell.length;
     }
 
-    public int getRow() {
+    public int getColumn() {
         return cell[0].length;
     }
 
