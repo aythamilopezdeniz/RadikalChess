@@ -31,7 +31,7 @@ public class Position {
     }
     
     public int manhattanDistance(Position position){
-        return (Math.abs(position.row-this.row)-
+        return (Math.abs(position.row-this.row)+
                 Math.abs(position.column-this.column));
     }
 
