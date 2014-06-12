@@ -12,7 +12,8 @@ public class Rook extends ChessPiece {
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        ChessPiece chessPiece=new Rook(getName(), getPosition(), getColour());
+        ChessPiece chessPiece=new Rook(getName(), new Position(this.getPosition().getRow(), 
+                this.getPosition().getColumn()), getColour());
         return chessPiece;
     }
 

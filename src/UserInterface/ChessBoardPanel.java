@@ -26,16 +26,6 @@ public class ChessBoardPanel extends JPanel {
         return cellPanel;
     }
 
-    private ChessBoard createBoard(ChessBoardPanel boardPanel) {
-        ChessBoard chessBoard=new ChessBoard(cellPanel.length, cellPanel[0].length);
-        for (int i=0;i<boardPanel.getBoard().length; i++) {
-            for (int j=0;j<boardPanel.getBoard()[0].length;j++) {
-                chessBoard.getCell()[i][j]=boardPanel.getBoard()[i][j].getCell();
-            }
-        }
-        return chessBoard;
-    }
-
     public void updateChessPiece(Movement movement) {
         destinationCellButton(movement).addPiece(originCellButton(movement));
         originCellButton(movement).removePiece();

@@ -2,10 +2,10 @@ package Model;
 
 public abstract class ChessPiece {
 
-    private final String name;
+    private String name;
     private Position position;
     private Image image;
-    private final String colour;
+    private String colour;
 
     public ChessPiece(String name, Position position, String colour) {
         this.name = name;
@@ -15,6 +15,10 @@ public abstract class ChessPiece {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Position getPosition() {
@@ -37,8 +41,18 @@ public abstract class ChessPiece {
         return colour;
     }
 
+    public void setColour(String colour) {
+        this.colour = colour;
+    }
+
     @Override
     protected abstract Object clone() throws CloneNotSupportedException;
     
     public abstract int getValue();
+
+    @Override
+    public String toString() {
+        return name+" "+colour;
+    }
+    
 }

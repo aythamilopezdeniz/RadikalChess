@@ -1,10 +1,10 @@
 package Aima;
 
-import Aima.Heuristic.HeuristicAttack;
+import Aima.Heuristic.EasyHeuristic;
 import Model.Movement;
+import Model.PieceMoveRange;
 import Model.Player;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class RadikalChessGame implements Game <RadikalChessState, Movement, Player>{
@@ -23,7 +23,8 @@ public class RadikalChessGame implements Game <RadikalChessState, Movement, Play
                 if(state.getChessBoard().getCell()[i][j].getChessPiece()!=null&&
                         state.getChessBoard().getCell()[i][j].getChessPiece().getColour().equals(
                                 state.getPlayer().getPlayer()))
-                    actions.addAll(j, (Collection<? extends Movement>) state);
+                    actions.addAll(PieceMoveRange.getInstance().posibleMove(
+                            state.getChessBoard().getCell()[i][j].getChessPiece(), state));
             }
         }
         return actions;
@@ -50,7 +51,7 @@ public class RadikalChessGame implements Game <RadikalChessState, Movement, Play
                     numberKing++;
             }
         }
-        return numberKing!=2;
+        return numberKing!=2||getActions(state).isEmpty();
     }
 
    @Override
@@ -65,7 +66,7 @@ public class RadikalChessGame implements Game <RadikalChessState, Movement, Play
 
     @Override
     public double getUtility(RadikalChessState state, Player player) {
-        HeuristicAttack heuristicAttack=new HeuristicAttack();
+        EasyHeuristic heuristicAttack=new EasyHeuristic();
         return heuristicAttack.getHeuristic(state, player);
     }
 }

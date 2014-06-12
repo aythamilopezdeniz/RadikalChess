@@ -40,7 +40,9 @@ public class ChessBoard implements Cloneable {
         for (int i=0;i<cell.length;i++) {
             for (int j=0;j<cell[0].length;j++) {
                 if(cell[i][j].getChessPiece()!=null)
-                    board.cell[i][j].setChessPiece((ChessPiece) cell[i][j].getChessPiece().clone());
+                    board.cell[i][j]=new Cell((ChessPiece) this.cell[i]
+                            [j].getChessPiece().clone(), new Position(i, j));
+                else board.cell[i][j]=new Cell(null, new Position(i, j));
             }
         }
         return  board;

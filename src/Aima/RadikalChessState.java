@@ -3,6 +3,7 @@ package Aima;
 import Model.Cell;
 import Model.ChessBoard;
 import Model.Movement;
+import Model.Pieces.Pawn;
 import Model.Player;
 import Model.Position;
 import Model.ProposeMove;
@@ -11,7 +12,7 @@ import UserInterface.CellPanel;
 
 public class RadikalChessState implements Cloneable {
 
-    private final ChessBoard chessBoard;
+    private ChessBoard chessBoard;
     private Player player;
     private int utility=0;
 
@@ -48,7 +49,8 @@ public class RadikalChessState implements Cloneable {
             }
             if (ProposeMove.getInstance().selectMove(
                     originCell(movement).getChessPiece(), movement, chessBoard)) {
-                if (!isEuclideanDistanceReduce(chessBoard, movement, player)) {
+                if (!isEuclideanDistanceReduce(chessBoard, movement, player)&&
+                        !(originCell(movement).getChessPiece() instanceof Pawn)) {
                     return false;
                 }
                 originCell(movement).getChessPiece().setPosition(movement.getDestination());
@@ -68,12 +70,12 @@ public class RadikalChessState implements Cloneable {
         player.setPlayer((player.getPlayer().equals("White"))?"Black":"White");
     }
 
-    private Cell originCell(Movement movement) {
+    public Cell originCell(Movement movement) {
         return chessBoard.getCell()[movement.getOrigin().getRow()]
                 [movement.getOrigin().getColumn()];
     }
 
-    private Cell destinationCell(Movement movement) {
+    public Cell destinationCell(Movement movement) {
         return chessBoard.getCell()[movement.getDestination().getRow()]
                 [movement.getDestination().getColumn()];
     }
@@ -93,21 +95,11 @@ public class RadikalChessState implements Cloneable {
                         movement.getOrigin().getColumn()).euclideanDistance(
                                 chessBoard.searchPositionKing(player));
     }
-    
-    public boolean isManhattanDistanceReduce(ChessBoard chessBoard, 
-            Movement movement, Player player){
-        return new Position(movement.getDestination().getRow(),
-                movement.getDestination().getColumn()).manhattanDistance(
-                chessBoard.searchPositionKing(player))<
-                new Position(movement.getOrigin().getRow(), 
-                movement.getOrigin().getColumn()).manhattanDistance(
-                chessBoard.searchPositionKing(player));
-    }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
-        RadikalChessState radikalChessState=new RadikalChessState(
-                (ChessBoard)chessBoard.clone(), player);
+    public Object clone() throws CloneNotSupportedException {
+        RadikalChessState radikalChessState=(RadikalChessState) super.clone();
+        radikalChessState.chessBoard=(ChessBoard) chessBoard.clone();
         return radikalChessState;
     }
 }

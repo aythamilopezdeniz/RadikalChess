@@ -4,7 +4,7 @@ import Model.ChessPiece;
 import Model.Position;
 
 public class King extends ChessPiece {
-    private final double value=Double.POSITIVE_INFINITY;
+    private final int value=1000;
 
     public King(String name, Position position, String colour) {
         super(name, position, colour);
@@ -12,12 +12,13 @@ public class King extends ChessPiece {
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        ChessPiece chessPiece=new King(getName(), getPosition(), getColour());
+        ChessPiece chessPiece=new King(getName(), new Position(this.getPosition().getRow(), 
+                this.getPosition().getColumn()), getColour());
         return chessPiece;
     }
 
     @Override
     public int getValue() {
-        return (int)value;
+        return value;
     }
 }

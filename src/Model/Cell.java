@@ -2,7 +2,7 @@ package Model;
 
 public class Cell {
     private ChessPiece chessPiece;
-    private final Position position;
+    private Position position;
 
     public Cell(ChessPiece chessPiece, Position position) {
         this.chessPiece=chessPiece;
@@ -19,5 +19,9 @@ public class Cell {
 
     public Position getPosition() {
         return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 }
