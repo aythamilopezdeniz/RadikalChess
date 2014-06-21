@@ -8,7 +8,6 @@ import Model.Player;
 import Model.Position;
 import Model.ProposeMove;
 import Model.ProposeMoveAttack;
-import UserInterface.CellPanel;
 
 public class RadikalChessState implements Cloneable {
 
@@ -80,12 +79,6 @@ public class RadikalChessState implements Cloneable {
                 [movement.getDestination().getColumn()];
     }
 
-    private Movement createMovement(CellPanel firstClicked,
-            CellPanel secondClicked) {
-        return new Movement(firstClicked.getCell().getPosition(),
-                secondClicked.getCell().getPosition());
-    }
-
     public boolean isEuclideanDistanceReduce(ChessBoard chessBoard,
             Movement movement, Player player) {
         return new Position(movement.getDestination().getRow(),
@@ -97,9 +90,13 @@ public class RadikalChessState implements Cloneable {
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
-        RadikalChessState radikalChessState=(RadikalChessState) super.clone();
-        radikalChessState.chessBoard=(ChessBoard) chessBoard.clone();
+    public Object clone() {
+        RadikalChessState radikalChessState = null;
+        try {
+            radikalChessState = (RadikalChessState) super.clone();
+            radikalChessState.chessBoard=(ChessBoard) chessBoard.clone();
+        } catch (CloneNotSupportedException ex) {
+        }
         return radikalChessState;
     }
 }

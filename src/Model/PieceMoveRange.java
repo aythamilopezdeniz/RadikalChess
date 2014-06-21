@@ -19,7 +19,7 @@ public class PieceMoveRange {
         return instance;
     }
     
-    public ArrayList<Movement> posibleMove(ChessPiece chessPiece, 
+    public ArrayList<Movement> selectMove(ChessPiece chessPiece, 
             RadikalChessState radikalChessState){
         ArrayList<Movement>move=new ArrayList<>();
         if(chessPiece instanceof Pawn)
@@ -60,7 +60,7 @@ public class PieceMoveRange {
                     chessPiece.getPosition().getColumn()-1>=0){
                 if(ProposeMoveAttack.getInstance().selectMoveAttack(chessPiece, new Movement(
                         chessPiece.getPosition(), new Position(chessPiece.getPosition().getRow()+1, 
-                                chessPiece.getPosition().getColumn()+1)), radikalChessState.getChessBoard())){}
+                                chessPiece.getPosition().getColumn()-1)), radikalChessState.getChessBoard())){}
                     move.add(new Movement(chessPiece.getPosition(), new Position(
                             chessPiece.getPosition().getRow()+1, chessPiece.getPosition().getColumn()-1)));
             }
@@ -98,42 +98,85 @@ public class PieceMoveRange {
     private void moveRangeRook(ChessPiece chessPiece, RadikalChessState 
             radikalChessState, ArrayList<Movement> move) {
         if(chessPiece.getColour().equals(radikalChessState.getPlayer().getPlayer())){
-            for (int i=0;i<radikalChessState.getChessBoard().getRow();i++) {
-                if(ProposeMove.getInstance().selectMove(chessPiece, new Movement(
-                        chessPiece.getPosition(),new Position(
-                                i, chessPiece.getPosition().getColumn())), 
-                        radikalChessState.getChessBoard())||
-                        ProposeMoveAttack.getInstance().selectMoveAttack(chessPiece, new Movement(
-                                chessPiece.getPosition(), 
-                                new Position(i, chessPiece.getPosition().getColumn())), 
-                                radikalChessState.getChessBoard())){
-                    if(radikalChessState.isEuclideanDistanceReduce(radikalChessState.getChessBoard(), 
-                            new Movement(chessPiece.getPosition(), 
-                                    new Position(chessPiece.getPosition().getRow()+i, 
-                                            chessPiece.getPosition().getColumn())), 
-                            radikalChessState.getPlayer())){
-                        move.add(new Movement(chessPiece.getPosition(), 
-                                new Position(i, chessPiece.getPosition().getColumn())));
-                    }
+            for (int i=1;i<radikalChessState.getChessBoard().getRow();i++) {
+                if(chessPiece.getPosition().getRow()+i<radikalChessState.getChessBoard().getRow()){
+                    if(ProposeMove.getInstance().selectMove(chessPiece, new Movement(
+                            chessPiece.getPosition(),new Position(
+                            chessPiece.getPosition().getRow()+i, chessPiece.getPosition().getColumn())),
+                            radikalChessState.getChessBoard())||
+                            ProposeMoveAttack.getInstance().selectMoveAttack(chessPiece, new Movement(
+                            chessPiece.getPosition(),new Position(chessPiece.getPosition().getRow()+i, 
+                            chessPiece.getPosition().getColumn())), radikalChessState.getChessBoard())){
+                        if(radikalChessState.isEuclideanDistanceReduce(radikalChessState.getChessBoard(),
+                                new Movement(chessPiece.getPosition(),
+                                new Position(chessPiece.getPosition().getRow()+i,
+                                chessPiece.getPosition().getColumn())),
+                                radikalChessState.getPlayer())){
+                            move.add(new Movement(chessPiece.getPosition(), new Position(
+                                    chessPiece.getPosition().getRow()+i, chessPiece.getPosition().getColumn())));
+                        }
+                    }else break;
                 }else break;
             }
-            for (int i=0;i<radikalChessState.getChessBoard().getColumn();i++) {
-                if(ProposeMove.getInstance().selectMove(chessPiece, new Movement(
-                        chessPiece.getPosition(), new Position(
-                                chessPiece.getPosition().getRow(), i)), 
-                        radikalChessState.getChessBoard())||
-                        ProposeMoveAttack.getInstance().selectMoveAttack(chessPiece, 
-                                new Movement(chessPiece.getPosition(), 
-                                        new Position(chessPiece.getPosition().getRow(), 
-                                                chessPiece.getPosition().getColumn())), 
-                                radikalChessState.getChessBoard())){
-                    if(radikalChessState.isEuclideanDistanceReduce(radikalChessState.getChessBoard(), 
-                            new Movement(chessPiece.getPosition(), 
-                                    new Position(chessPiece.getPosition().getRow()+i, i)), 
-                            radikalChessState.getPlayer())){
-                        move.add(new Movement(chessPiece.getPosition(), 
-                                new Position(i, chessPiece.getPosition().getColumn())));
-                    }
+            for (int i=1;i<radikalChessState.getChessBoard().getRow();i++) {
+                if(chessPiece.getPosition().getRow()-i>=0){
+                    if(ProposeMove.getInstance().selectMove(chessPiece, new Movement(
+                            chessPiece.getPosition(), new Position(
+                            chessPiece.getPosition().getRow()-i, chessPiece.getPosition().getColumn())),
+                            radikalChessState.getChessBoard())||
+                            ProposeMoveAttack.getInstance().selectMoveAttack(chessPiece,
+                            new Movement(chessPiece.getPosition(),
+                            new Position(chessPiece.getPosition().getRow()-i,
+                            chessPiece.getPosition().getColumn())),
+                            radikalChessState.getChessBoard())){
+                        if(radikalChessState.isEuclideanDistanceReduce(radikalChessState.getChessBoard(),
+                                new Movement(chessPiece.getPosition(), new Position(
+                                chessPiece.getPosition().getRow()-i, chessPiece.getPosition().getColumn())),
+                                radikalChessState.getPlayer())){
+                            move.add(new Movement(chessPiece.getPosition(), new Position(
+                                    chessPiece.getPosition().getRow()-i, chessPiece.getPosition().getColumn())));
+                        }
+                    }else break;
+                }else break;
+            }
+            for (int i=1;i<radikalChessState.getChessBoard().getColumn();i++) {
+                if(chessPiece.getPosition().getColumn()+i<radikalChessState.getChessBoard().getColumn()){
+                    if(ProposeMove.getInstance().selectMove(chessPiece, new Movement(
+                            chessPiece.getPosition(), new Position(chessPiece.getPosition().getRow(), 
+                            chessPiece.getPosition().getColumn()+i)),
+                            radikalChessState.getChessBoard())||
+                            ProposeMoveAttack.getInstance().selectMoveAttack(chessPiece,
+                            new Movement(chessPiece.getPosition(), new Position(
+                            chessPiece.getPosition().getRow(), chessPiece.getPosition().getColumn()+i)),
+                            radikalChessState.getChessBoard())){
+                        if(radikalChessState.isEuclideanDistanceReduce(radikalChessState.getChessBoard(),
+                                new Movement(chessPiece.getPosition(), new Position(
+                                chessPiece.getPosition().getRow(), chessPiece.getPosition().getColumn()+i)),
+                                radikalChessState.getPlayer())){
+                            move.add(new Movement(chessPiece.getPosition(), new Position(
+                                    chessPiece.getPosition().getRow(), chessPiece.getPosition().getColumn()+i)));
+                        }
+                    }else break;
+                }else break;
+            }
+            for (int i=1;i<radikalChessState.getChessBoard().getColumn();i++) {
+                if(chessPiece.getPosition().getColumn()-i>=0){
+                    if(ProposeMove.getInstance().selectMove(chessPiece, new Movement(
+                            chessPiece.getPosition(), new Position(chessPiece.getPosition().getRow(), 
+                            chessPiece.getPosition().getColumn()-i)),
+                            radikalChessState.getChessBoard())||
+                            ProposeMoveAttack.getInstance().selectMoveAttack(chessPiece,
+                            new Movement(chessPiece.getPosition(), new Position(
+                            chessPiece.getPosition().getRow(), chessPiece.getPosition().getColumn()-i)),
+                            radikalChessState.getChessBoard())){
+                        if(radikalChessState.isEuclideanDistanceReduce(radikalChessState.getChessBoard(),
+                                new Movement(chessPiece.getPosition(), new Position(
+                                chessPiece.getPosition().getRow(), chessPiece.getPosition().getColumn()-i)),
+                                radikalChessState.getPlayer())){
+                            move.add(new Movement(chessPiece.getPosition(), new Position(
+                                    chessPiece.getPosition().getRow(), chessPiece.getPosition().getColumn()-i)));
+                        }
+                    }else break;
                 }else break;
             }
         }
@@ -191,7 +234,7 @@ public class PieceMoveRange {
             }
             for (int i=0;i<radikalChessState.getChessBoard().getRow();i++) {
                 if(chessPiece.getPosition().getRow()-i>=0&&
-                        chessPiece.getPosition().getColumn()+i>=radikalChessState.getChessBoard().getColumn()){
+                        chessPiece.getPosition().getColumn()+i<radikalChessState.getChessBoard().getColumn()){
                     if(ProposeMove.getInstance().selectMove(chessPiece, new Movement(
                             chessPiece.getPosition(), new Position(chessPiece.getPosition().getRow()-i, 
                                     chessPiece.getPosition().getColumn()+i)), 
@@ -203,7 +246,7 @@ public class PieceMoveRange {
                                     radikalChessState.getChessBoard())){
                         if(radikalChessState.isEuclideanDistanceReduce(radikalChessState.getChessBoard(), 
                                 new Movement(chessPiece.getPosition(), 
-                                        new Position(chessPiece.getPosition().getRow()+i, 
+                                        new Position(chessPiece.getPosition().getRow()-i, 
                         chessPiece.getPosition().getColumn()+i)), 
                                 radikalChessState.getPlayer())){
                             move.add(new Movement(chessPiece.getPosition(),
@@ -230,6 +273,9 @@ public class PieceMoveRange {
                                         new Position(chessPiece.getPosition().getRow()-i, 
                                         chessPiece.getPosition().getColumn()-i)), 
                                 radikalChessState.getPlayer())){
+                            move.add(new Movement(chessPiece.getPosition(),
+                                    new Position(chessPiece.getPosition().getRow()-i,
+                                            chessPiece.getPosition().getColumn()-i)));
                         }
                     }else break;
                 }else break;
@@ -371,7 +417,7 @@ public class PieceMoveRange {
                 }
             }
         }
-        if(chessPiece.getPosition().getRow()+1<radikalChessState.getChessBoard().getColumn()&&
+        if(chessPiece.getPosition().getRow()+1<radikalChessState.getChessBoard().getRow()&&
                 chessPiece.getPosition().getColumn()+1<radikalChessState.getChessBoard().getColumn()){
             if(ProposeMove.getInstance().selectMove(chessPiece, new Movement(
                     chessPiece.getPosition(), new Position(chessPiece.getPosition().getRow()+1, 

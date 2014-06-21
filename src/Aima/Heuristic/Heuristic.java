@@ -19,7 +19,7 @@ public abstract class Heuristic {
                 if(radikalChessState.getChessBoard().getCell()[i][j].getChessPiece()!=null){
                     if(radikalChessState.getChessBoard().getCell()[i][j].getChessPiece().getColour().equals(
                             radikalChessState.getPlayer().getPlayer())){
-                        action.addAll(PieceMoveRange.getInstance().posibleMove(
+                        action.addAll(PieceMoveRange.getInstance().selectMove(
                                 radikalChessState.getChessBoard().getCell()[i][j].getChessPiece(), radikalChessState));
                         for (Movement movement : action) {
                             if(radikalChessState.destinationCell(movement).getChessPiece()!=null){
@@ -32,7 +32,7 @@ public abstract class Heuristic {
                         RadikalChessState radikalChessStateClone=(RadikalChessState) radikalChessState.clone();
                         radikalChessStateClone.setPlayer(radikalChessStateClone.getPlayer().getPlayer().equals(
                                 "White")?new Player("Black"):new Player("White"));
-                        action.addAll(PieceMoveRange.getInstance().posibleMove(radikalChessState.
+                        action.addAll(PieceMoveRange.getInstance().selectMove(radikalChessState.
                                 getChessBoard().getCell()[i][j].getChessPiece(), radikalChessStateClone));
                         for (Movement movement : action) {
                             if(radikalChessState.destinationCell(movement).getChessPiece()!=null){

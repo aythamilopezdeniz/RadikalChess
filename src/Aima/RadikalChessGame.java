@@ -23,7 +23,7 @@ public class RadikalChessGame implements Game <RadikalChessState, Movement, Play
                 if(state.getChessBoard().getCell()[i][j].getChessPiece()!=null&&
                         state.getChessBoard().getCell()[i][j].getChessPiece().getColour().equals(
                                 state.getPlayer().getPlayer()))
-                    actions.addAll(PieceMoveRange.getInstance().posibleMove(
+                    actions.addAll(PieceMoveRange.getInstance().selectMove(
                             state.getChessBoard().getCell()[i][j].getChessPiece(), state));
             }
         }
@@ -32,12 +32,9 @@ public class RadikalChessGame implements Game <RadikalChessState, Movement, Play
 
     @Override
     public RadikalChessState getResult(RadikalChessState state, Movement movement) {
-        RadikalChessState radikalChessState = null;
-        try {
-            radikalChessState=(RadikalChessState) state.clone();
-            radikalChessState.mark(movement);
-        } catch (CloneNotSupportedException ex) {
-        }
+        RadikalChessState radikalChessState;
+        radikalChessState=(RadikalChessState) state.clone();
+        radikalChessState.mark(movement);
         return radikalChessState;
     }
 
