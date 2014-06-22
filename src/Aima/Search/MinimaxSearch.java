@@ -8,8 +8,9 @@ import Model.Movement;
 public class MinimaxSearch<STATE, ACTION, PLAYER> implements
 		AdversarialSearch<STATE, ACTION> {
     private Game<STATE, ACTION, PLAYER> game;
-    private int expandedNodes;
     private static int totalExpandedNodes;
+    private int expandedNodes;
+    private double time;
     private int turn=1;
     
     public static <STATE, ACTION, PLAYER> MinimaxSearch<STATE, ACTION, PLAYER> createFor(
@@ -79,4 +80,14 @@ public class MinimaxSearch<STATE, ACTION, PLAYER> implements
 	public int getTotalExpandedNodes(){
 	    return totalExpandedNodes;
 	}
+
+    @Override
+    public double getTime() {
+        return time;
+    }
+
+    @Override
+    public int getExpandedNodes() {
+        return expandedNodes;
+    }
 }

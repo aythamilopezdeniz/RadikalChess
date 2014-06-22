@@ -43,6 +43,7 @@ public abstract class Heuristic {
                         }
                     }
                 }
+                action.clear();
             }
         }
         return 0;
