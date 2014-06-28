@@ -272,7 +272,7 @@ public class ProposeMoveAttack {
             for (int i=1;i<movement.getOrigin().getColumn()-movement.getDestination().getColumn()+1;i++) {
                 if(i<movement.getOrigin().getColumn()-movement.getDestination().getColumn()&&
                         chessBoard.getCell()[movement.getOrigin().getRow()-i]
-                        [movement.getDestination().getColumn()-i].getChessPiece()!=null)return false;
+                        [movement.getOrigin().getColumn()-i].getChessPiece()!=null)return false;
                 else if(i==movement.getOrigin().getColumn()-movement.getDestination().getColumn()&&
                         chessBoard.getCell()[movement.getOrigin().getRow()-i]
                         [movement.getOrigin().getColumn()-i].getChessPiece()!=null&&

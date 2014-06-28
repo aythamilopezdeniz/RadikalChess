@@ -48,10 +48,13 @@ public class RadikalChessState implements Cloneable {
             }
             if (ProposeMove.getInstance().selectMove(
                     originCell(movement).getChessPiece(), movement, chessBoard)) {
-                if (!isEuclideanDistanceReduce(chessBoard, movement, player)&&
+                /*if (!isEuclideanDistanceReduce(chessBoard, movement, player)&&
                         !(originCell(movement).getChessPiece() instanceof Pawn)) {
                     return false;
-                }
+                }*/
+                if(!isEuclideanDistanceReduce(movement.getOrigin(), movement.getDestination())&&
+                        !(originCell(movement).getChessPiece() instanceof Pawn))
+                    return false;
                 originCell(movement).getChessPiece().setPosition(movement.getDestination());
                 destinationCell(movement).setChessPiece(originCell(movement).getChessPiece());
                 originCell(movement).setChessPiece(null);
@@ -78,15 +81,10 @@ public class RadikalChessState implements Cloneable {
         return chessBoard.getCell()[movement.getDestination().getRow()]
                 [movement.getDestination().getColumn()];
     }
-
-    public boolean isEuclideanDistanceReduce(ChessBoard chessBoard,
-            Movement movement, Player player) {
-        return new Position(movement.getDestination().getRow(),
-                movement.getDestination().getColumn()).euclideanDistance(
-                        chessBoard.searchPositionKing(player))
-                < new Position(movement.getOrigin().getRow(),
-                        movement.getOrigin().getColumn()).euclideanDistance(
-                                chessBoard.searchPositionKing(player));
+    
+    public boolean isEuclideanDistanceReduce(Position origin, Position destination){
+        return (destination.euclideanDistance(chessBoard, player)<
+                origin.euclideanDistance(chessBoard, player));
     }
 
     @Override
@@ -95,6 +93,7 @@ public class RadikalChessState implements Cloneable {
         try {
             radikalChessState = (RadikalChessState) super.clone();
             radikalChessState.chessBoard=(ChessBoard) chessBoard.clone();
+            radikalChessState.player=(Player) player.clone();
         } catch (CloneNotSupportedException ex) {
         }
         return radikalChessState;

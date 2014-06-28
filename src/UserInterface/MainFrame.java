@@ -3,6 +3,7 @@ package UserInterface;
 import Aima.RadikalChessGame;
 import Aima.RadikalChessState;
 import Aima.Search.AdversarialSearch;
+import Aima.Search.AlphaBetaSearch;
 import Aima.Search.MinimaxSearch;
 import Model.Cell;
 import Model.ChessBoard;
@@ -41,16 +42,21 @@ public class MainFrame extends JFrame {
     private final Player player = new Player("White");
     private RadikalChessState radikalChessState;
     private RadikalChessGame radikalChessGame=new RadikalChessGame();
+    private JTextField nodesExpanded, time, pathCost;
     private ChessBoardPanel chessBoardPanel;
-    private JTextField nodesExpanded;
+    private int numberOfMovementsSearch=0;
+    private final int offsetColumn=0;
     private JTextField nodesExamine;
+    private int numberOfMovements=0;
     private CellPanel firstClicked;
     private JTextArea actionsPanel;
     private boolean buttonPressed;
-    private JTextField pathCost;
-    private final int offsetColumn=0;
     private final int offsetRow=0;
+    private JComboBox difficulty;
+    private JComboBox algorithm;
+    //private JTextArea movements;
     private int column=4;
+    private int level=0;
     private int row=6;
 
     public MainFrame(ArrayList<ChessPiece> whiteChessPieces,
@@ -87,7 +93,7 @@ public class MainFrame extends JFrame {
     }
     
     private JTextArea createActionsPanel() {
-        actionsPanel=new JTextArea("Final movements [Row,Column]:\n");
+        actionsPanel=new JTextArea("Historial of moves [Row, Column]:\n");
         actionsPanel.setLineWrap(true);
         actionsPanel.setWrapStyleWord(true);
         actionsPanel.setEditable(false);
@@ -103,17 +109,14 @@ public class MainFrame extends JFrame {
 
     private JPanel createToolbar() {
         JPanel panel = new JPanel();
-        //panel.add(createDifficulty());
-        //panel.add(createBoardSize());
+        panel.add(createDifficulty());
         panel.add(createAlgorithm());
-        //panel.add(createPlayButton());
-        panel.add(createResetButton());
         panel.add(createProposeMoveButton());
         return panel;
     }
 
     private JComboBox createDifficulty() {
-        final JComboBox difficulty = new JComboBox(new String[]{"Easy", "Medium", "Hard"});
+        difficulty = new JComboBox(new String[]{"Easy", "Medium", "Hard"});
         difficulty.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -130,39 +133,6 @@ public class MainFrame extends JFrame {
             }
         });
         return difficulty;
-    }
-
-    private JComboBox createBoardSize() {
-        final JComboBox size = new JComboBox(new String[]{"Size=6x4", "Size=8x6", "Size=10x8", "Size=12x10"});
-        size.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() != ItemEvent.SELECTED) {
-                    return;
-                }
-                if (size.getSelectedItem().equals("Size=6x4")) {
-                    setRow(6);
-                    setColumn(4);
-                    createBoardPanel();
-                }
-                if (size.getSelectedItem().equals("Size=8x6")) {
-                    setRow(8);
-                    setColumn(6);
-                    createBoardPanel();
-                }
-                if (size.getSelectedItem().equals("Size=10x8")) {
-                    setRow(10);
-                    setColumn(8);
-                    createBoardPanel();
-                }
-                if (size.getSelectedItem().equals("Size=12x10")) {
-                    setRow(12);
-                    setColumn(10);
-                    createBoardPanel();
-                }
-            }
-        });
-        return size;
     }
 
     public int getRow() {
@@ -182,7 +152,7 @@ public class MainFrame extends JFrame {
     }
 
     private JComboBox createAlgorithm() {
-        final JComboBox algorithm = new JComboBox(new String[]{"MinimaxSearch", "AlphaBetaSearch"});
+        algorithm = new JComboBox(new String[]{"MinimaxSearch", "AlphaBetaSearch"});
         algorithm.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -198,41 +168,75 @@ public class MainFrame extends JFrame {
         return algorithm;
     }
 
-    private JButton createPlayButton() {
-        JButton play = new JButton("Play");
-        return play;
-    }
-
-    private JButton createResetButton() {
-        JButton reset = new JButton("Reset");
-        return reset;
-    }
-
     private JButton createProposeMoveButton() {
         JButton proposeMove = new JButton("Propose Move");
         proposeMove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!radikalChessGame.isTerminal(radikalChessState)){
+                if (!radikalChessGame.isTerminal(radikalChessState)) {
+                    algorithm.setEnabled(false);
+                    difficulty.setEnabled(false);
+                    AdversarialSearch<RadikalChessState, Movement> search;
+                    Movement action;
+                    if (difficulty.getSelectedIndex() == 0)
+                        level = 3;
+                    else if (difficulty.getSelectedIndex() == 1)
+                        level = 4;
+                    else
+                        level = 5;
+                    if (algorithm.getSelectedIndex() == 0) {
+                        search = MinimaxSearch.createFor(radikalChessGame, level);
+                    } else {
+                        search = AlphaBetaSearch.createFor(radikalChessGame, level);
+                    }
+                    Player actualPlayer = new Player(radikalChessState.getPlayer().getPlayer());
+                    action = search.makeDecision(radikalChessState);
+                    radikalChessState.setPlayer(actualPlayer);
+                    radikalChessState.mark(action);
+                    numberOfMovementsSearch++;
+                    numberOfMovements++;
+                    chessBoardPanel.updateChessPiece(newMovement(action.getOrigin(), action.getDestination()));
+                    updateStatistics(search);
+                    updateMovement(action);
                     try {
-                        AdversarialSearch<RadikalChessState, Movement> search;
-                        Player player=new Player(radikalChessState.getPlayer().getPlayer());
-                        Movement action;
-                        search = MinimaxSearch.createFor(radikalChessGame);
-                        action = search.makeDecision(radikalChessState);
-                        radikalChessState.setPlayer(player);
-                        radikalChessState.mark(action);
-                        chessBoardPanel.updateChessPiece(newMovement(
-                                action.getOrigin(), action.getDestination()));
-                        chessBoardPanel.checkPromotionedPawn(newMovement(
-                                action.getOrigin(), action.getDestination()),
-                                allChessPieces, radikalChessState);
+                        chessBoardPanel.checkPromotionedPawn(newMovement(action.getOrigin(), 
+                                action.getDestination()), allChessPieces, radikalChessState);
                     } catch (IOException ex) {
                     }
                 }
+                System.out.println();
             }
         });
         return proposeMove;
+    }
+    
+        private void updateStatistics(AdversarialSearch<RadikalChessState, Movement> search) {
+        updateNodesExpanded(search);
+        updateTime(search);
+        updatePathCost();
+    }
+
+    private void updateNodesExpanded(AdversarialSearch<RadikalChessState, Movement> search) {
+        nodesExpanded.setText(String.valueOf(search.getExpandedNodes()));
+    }
+
+    private void updateTime(AdversarialSearch<RadikalChessState, Movement> search) {
+        time.setText(String.valueOf(search.getTime() + " s"));
+    }
+
+    private void updatePathCost() {
+        pathCost.setText(String.valueOf(numberOfMovementsSearch));
+    }
+
+    private void updateMovement(Movement movement) {
+        actionsPanel.setText(actionsPanel.getText() + numberOfMovements + ". "
+                + radikalChessState.getChessBoard().getCell()[movement.getDestination().getRow()]
+                        [movement.getDestination().getColumn()].getChessPiece().getColour() + " "
+                + radikalChessState.getChessBoard().getCell()[movement.getDestination().getRow()]
+                        [movement.getDestination().getColumn()].getChessPiece().getName() + " from " + "["
+                + movement.getOrigin().getRow() + "," + movement.getOrigin().getColumn()
+                + "] to " + "[" + movement.getDestination().getRow() + ","
+                + movement.getDestination().getColumn() + "]\n");
     }
 
     private ChessBoardPanel createBoardPanel() {
@@ -268,13 +272,16 @@ public class MainFrame extends JFrame {
                                                 chessBoardPanel.updateChessPiece(newMovement(
                                                         firstClicked.getCell().getPosition(),
                                                         secondClicked.getCell().getPosition()));
-                                            try {
-                                                chessBoardPanel.checkPromotionedPawn(newMovement(
-                                                        firstClicked.getCell().getPosition(),
-                                                        secondClicked.getCell().getPosition()),
-                                                        allChessPieces, radikalChessState);
-                                            } catch (IOException ex) {
-                                            }
+                                                numberOfMovements++;
+                                                updateMovement(newMovement(firstClicked.getCell().getPosition(), 
+                                                        secondClicked.getCell().getPosition()));
+                                        }
+                                        try {
+                                            chessBoardPanel.checkPromotionedPawn(newMovement(
+                                                    firstClicked.getCell().getPosition(),
+                                                    secondClicked.getCell().getPosition()),
+                                                    allChessPieces, radikalChessState);
+                                        } catch (IOException ex) {
                                         }
                                     }
                                     buttonPressed = false;
@@ -359,18 +366,18 @@ public class MainFrame extends JFrame {
         nodesExpanded = new JTextField(5);
         nodesExpanded.setEditable(false);
         resultNodesExpanded.setLayout(new FlowLayout(FlowLayout.LEFT));
-        resultNodesExpanded.add(new JLabel("Nº de nodos expandidos:"));
+        resultNodesExpanded.add(new JLabel("Number of expanded nodes:"));
         resultNodesExpanded.add(nodesExpanded);
         return resultNodesExpanded;
     }
 
     private JPanel createNodesExaminePanel() {
         JPanel resultNodesExamine = new JPanel();
-        nodesExamine = new JTextField(5);
-        nodesExamine.setEditable(false);
+        time = new JTextField(5);
+        time.setEditable(false);
         resultNodesExamine.setLayout(new FlowLayout(FlowLayout.LEFT));
-        resultNodesExamine.add(new JLabel("Nº de nodos visitados:"));
-        resultNodesExamine.add(nodesExamine);
+        resultNodesExamine.add(new JLabel("Time:"));
+        resultNodesExamine.add(time);
         return resultNodesExamine;
     }
 
@@ -379,7 +386,7 @@ public class MainFrame extends JFrame {
         pathCost = new JTextField(3);
         pathCost.setEditable(false);
         resultPathCost.setLayout(new FlowLayout(FlowLayout.LEFT));
-        resultPathCost.add(new JLabel("Coste del camino:"));
+        resultPathCost.add(new JLabel("Number of movements:"));
         resultPathCost.add(pathCost);
         return resultPathCost;
     }

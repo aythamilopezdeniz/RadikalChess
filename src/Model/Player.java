@@ -20,4 +20,9 @@ public class Player {
         Player name=(Player)obj;
         return player.equals(name.player);
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

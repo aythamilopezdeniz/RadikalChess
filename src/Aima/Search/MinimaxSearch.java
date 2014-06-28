@@ -9,12 +9,15 @@ public class MinimaxSearch<STATE, ACTION, PLAYER> implements
 		AdversarialSearch<STATE, ACTION> {
     private Game<STATE, ACTION, PLAYER> game;
     private static int totalExpandedNodes;
+    private static int totalTime=0;
+    private static int maxDepth;
     private int expandedNodes;
+    private static int turn=1;
     private double time;
-    private int turn=1;
     
     public static <STATE, ACTION, PLAYER> MinimaxSearch<STATE, ACTION, PLAYER> createFor(
-            Game<STATE, ACTION, PLAYER> game) {
+            Game<STATE, ACTION, PLAYER> game, int difficulty) {
+        maxDepth=difficulty;
         return new MinimaxSearch<>(game);
     }
     
@@ -29,7 +32,8 @@ public class MinimaxSearch<STATE, ACTION, PLAYER> implements
         ACTION result=null;
         double resultValue=Double.NEGATIVE_INFINITY;
         PLAYER player=game.getPlayer(state);
-        System.out.println(turn+"º Vuelta");
+        System.out.println(turn+"º Turn");
+        double t1=System.currentTimeMillis();
         for (ACTION action:game.getActions(state)) {
             double value=minValue(game.getResult(state, action),currectDepth, player);
             if (value>resultValue) {
@@ -39,9 +43,12 @@ public class MinimaxSearch<STATE, ACTION, PLAYER> implements
             System.out.println(((RadikalChessState)state).originCell(
                     (Movement)action).getChessPiece().toString()+" "+value);
         }
+        time=System.currentTimeMillis()-t1;
+        totalTime+=time;
+        System.out.println("Tiempo "+totalTime);
         turn++;
-        System.out.println("");
         totalExpandedNodes += expandedNodes;
+        System.out.println("Nodos totales expandidos "+totalExpandedNodes);
         return result;
     }
     

@@ -25,9 +25,12 @@ public class Position {
         this.column = column;
     }
     
-    public int euclideanDistance(Position position){
-        return (int) (Math.pow(position.row-this.row, 2)-
-                Math.pow(position.column-this.column, 2));
+    public int euclideanDistance(ChessBoard chessBoard, Player player) {
+        if(chessBoard.searchPositionKing(player)!=null){
+            return (int) (Math.pow(this.row-chessBoard.searchPositionKing(player).getRow(), 2)+
+                    Math.pow(this.column-chessBoard.searchPositionKing(player).getColumn(), 2));
+        }
+        return 0;
     }
 
     @Override
