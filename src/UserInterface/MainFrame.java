@@ -54,7 +54,6 @@ public class MainFrame extends JFrame {
     private final int offsetRow=0;
     private JComboBox difficulty;
     private JComboBox algorithm;
-    //private JTextArea movements;
     private int column=4;
     private int level=0;
     private int row=6;
@@ -71,7 +70,7 @@ public class MainFrame extends JFrame {
         this.createComponent();
         createSplitPane();
         fillBoard();
-        this.setMinimumSize(new Dimension(700,700));
+        this.setMinimumSize(new Dimension(600,600));
         this.pack();
         this.setLocationRelativeTo(null);
     }
@@ -97,7 +96,7 @@ public class MainFrame extends JFrame {
         actionsPanel.setLineWrap(true);
         actionsPanel.setWrapStyleWord(true);
         actionsPanel.setEditable(false);
-        actionsPanel.setMinimumSize(new Dimension(300,300));
+        actionsPanel.setMinimumSize(new Dimension(200,200));
         return actionsPanel;
     }
 
@@ -195,11 +194,11 @@ public class MainFrame extends JFrame {
                     radikalChessState.mark(action);
                     numberOfMovementsSearch++;
                     numberOfMovements++;
-                    chessBoardPanel.updateChessPiece(newMovement(action.getOrigin(), action.getDestination()));
+                    chessBoardPanel.updateChessPiece(createMovement(action.getOrigin(), action.getDestination()));
                     updateStatistics(search);
                     updateMovement(action);
                     try {
-                        chessBoardPanel.checkPromotionedPawn(newMovement(action.getOrigin(), 
+                        chessBoardPanel.checkPromotionedPawn(createMovement(action.getOrigin(), 
                                 action.getDestination()), allChessPieces, radikalChessState);
                     } catch (IOException ex) {
                     }
@@ -221,7 +220,7 @@ public class MainFrame extends JFrame {
     }
 
     private void updateTime(AdversarialSearch<RadikalChessState, Movement> search) {
-        time.setText(String.valueOf(search.getTime() + " s"));
+        time.setText(String.valueOf(search.getTime()+" s"));
     }
 
     private void updatePathCost() {
@@ -229,14 +228,14 @@ public class MainFrame extends JFrame {
     }
 
     private void updateMovement(Movement movement) {
-        actionsPanel.setText(actionsPanel.getText() + numberOfMovements + ". "
-                + radikalChessState.getChessBoard().getCell()[movement.getDestination().getRow()]
-                        [movement.getDestination().getColumn()].getChessPiece().getColour() + " "
-                + radikalChessState.getChessBoard().getCell()[movement.getDestination().getRow()]
-                        [movement.getDestination().getColumn()].getChessPiece().getName() + " from " + "["
-                + movement.getOrigin().getRow() + "," + movement.getOrigin().getColumn()
-                + "] to " + "[" + movement.getDestination().getRow() + ","
-                + movement.getDestination().getColumn() + "]\n");
+        actionsPanel.setText(actionsPanel.getText()+numberOfMovements+". "
+                +radikalChessState.getChessBoard().getCell()[movement.getDestination().getRow()]
+                        [movement.getDestination().getColumn()].getChessPiece().getColour()+" "
+                +radikalChessState.getChessBoard().getCell()[movement.getDestination().getRow()]
+                        [movement.getDestination().getColumn()].getChessPiece().getName()+" from "+"["
+                +movement.getOrigin().getRow()+","+movement.getOrigin().getColumn()
+                +"] to "+"["+movement.getDestination().getRow()+","
+                +movement.getDestination().getColumn()+"]\n");
     }
 
     private ChessBoardPanel createBoardPanel() {
@@ -267,17 +266,17 @@ public class MainFrame extends JFrame {
                                     if (!firstClicked.getCell().getPosition().equals(
                                             secondClicked.getCell().getPosition())) {
                                         if (radikalChessState.possibleMove(
-                                                newMovement(firstClicked.getCell().getPosition(),
+                                                createMovement(firstClicked.getCell().getPosition(),
                                                         secondClicked.getCell().getPosition()))) {
-                                                chessBoardPanel.updateChessPiece(newMovement(
+                                                chessBoardPanel.updateChessPiece(createMovement(
                                                         firstClicked.getCell().getPosition(),
                                                         secondClicked.getCell().getPosition()));
                                                 numberOfMovements++;
-                                                updateMovement(newMovement(firstClicked.getCell().getPosition(), 
+                                                updateMovement(createMovement(firstClicked.getCell().getPosition(), 
                                                         secondClicked.getCell().getPosition()));
                                         }
                                         try {
-                                            chessBoardPanel.checkPromotionedPawn(newMovement(
+                                            chessBoardPanel.checkPromotionedPawn(createMovement(
                                                     firstClicked.getCell().getPosition(),
                                                     secondClicked.getCell().getPosition()),
                                                     allChessPieces, radikalChessState);
@@ -300,7 +299,7 @@ public class MainFrame extends JFrame {
         placePieces();
     }
 
-    private Movement newMovement(Position origin, Position destination) {
+    private Movement createMovement(Position origin, Position destination) {
         return new Movement(origin, destination);
     }
 

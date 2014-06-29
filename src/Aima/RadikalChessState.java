@@ -48,10 +48,6 @@ public class RadikalChessState implements Cloneable {
             }
             if (ProposeMove.getInstance().selectMove(
                     originCell(movement).getChessPiece(), movement, chessBoard)) {
-                /*if (!isEuclideanDistanceReduce(chessBoard, movement, player)&&
-                        !(originCell(movement).getChessPiece() instanceof Pawn)) {
-                    return false;
-                }*/
                 if(!isEuclideanDistanceReduce(movement.getOrigin(), movement.getDestination())&&
                         !(originCell(movement).getChessPiece() instanceof Pawn))
                     return false;

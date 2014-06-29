@@ -30,7 +30,7 @@ public class ChessBoardPanel extends JPanel {
         originCellButton(movement).removePiece();
     }
     
-    /*public void checkPromotionedPawn(Movement movement, ArrayList<ChessPiece> allPieces, 
+    public void checkPromotionedPawn(Movement movement, ArrayList<ChessPiece> allPieces, 
             RadikalChessState state) throws IOException {
         if (destinationCellButton(movement).getCell().getChessPiece() instanceof Pawn&&
                 (destinationCellButton(movement).getCell().getChessPiece().getPosition().getRow()==0||
@@ -45,7 +45,7 @@ public class ChessBoardPanel extends JPanel {
                                 movement).getCell().getChessPiece().getPosition())) {
                     chessPiece=new Queen("Queen", chessPiece.getPosition(), chessPiece.getColour());
                     chessPiece.setImage(new Image(new SwingBitmap(ImageIO.read(new File(
-                            RadikalChessControl.filename+"/"+chessPiece.getColour()+"Queen.png")))));
+                            RadikalChessControl.filename+"/"+chessPiece.getColour()+"Queen"+".jpg")))));
                     destinationCellButton(movement).getCell().setChessPiece(chessPiece);
                     state.getChessBoard().getCell()[movement.getDestination().getRow()]
                             [movement.getDestination().getColumn()].setChessPiece(chessPiece);
@@ -55,35 +55,7 @@ public class ChessBoardPanel extends JPanel {
                 }
             }
         }
-    }*/
-    public void checkPromotionedPawn(Movement movement, ArrayList<ChessPiece> allPieces, 
-            RadikalChessState state) throws IOException {
-        if (destinationCellButton(movement).getCell().getChessPiece() instanceof Pawn
-                && (destinationCellButton(movement).getCell().getChessPiece().getPosition().getRow() == 0
-                || destinationCellButton(movement).getCell().getChessPiece().getPosition().getRow()
-                == cellPanel.length - 1) && 
-                destinationCellButton(movement).getCell().getChessPiece() instanceof Pawn) {
-            for (ChessPiece chessPiece : allPieces) {
-                if (chessPiece.getName().equals(destinationCellButton(movement).getCell().getChessPiece().getName())
-                        && chessPiece.getColour().equals(destinationCellButton(movement).getCell().getChessPiece().getColour())
-                        && chessPiece.getPosition().equals(destinationCellButton(movement).getCell().getChessPiece().getPosition())) {
-                    chessPiece = new Queen("Queen", chessPiece.getPosition(), chessPiece.getColour());
-                    chessPiece.setImage(new Image(new SwingBitmap(ImageIO.read(new File(RadikalChessControl.filename + 
-                    "/"
-                    + chessPiece.getColour() + "Queen"
-                    + ".png")))));
-                    destinationCellButton(movement).getCell().setChessPiece(chessPiece);
-                    state.getChessBoard().getCell()[movement.getDestination().getRow()]
-                            [movement.getDestination().getColumn()].setChessPiece(chessPiece);
-                    destinationCellButton(movement).setIcon(new ImageIcon(((SwingBitmap) 
-                            destinationCellButton(movement).getCell().getChessPiece().getImage().
-                                    getBitmap()).getBufferedImage()));
-                    break;
-                }
-            }
-        }
     }
-    
     
     private CellPanel originCellButton(Movement movement){
         return cellPanel[movement.getOrigin().getRow()]
